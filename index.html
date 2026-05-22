@@ -724,14 +724,20 @@ function clearToken() {
 }
 
 // ── API ──────────────────────────────────────────────────────────────────────
+// Fetch ALL items from ALL groups with ALL tracked columns.
+// Returns full item list; chart rendering filters from this.
 async function fetchItems(token) {
+  const ALL_COLS = [FCS_COL, CONF_COL, 'status', 'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd'];
+  const colIds   = ALL_COLS.map(c => `"${c}"`).join(', ');
+
   const query = `{
     boards(ids: [${BOARD_ID}]) {
-      groups(ids: ["${GROUP_ID}"]) {
+      groups {
+        id title
         items_page(limit: 100) {
           items {
             id name
-            column_values(ids: ["${FCS_COL}", "${CONF_COL}"]) { id text }
+            column_values(ids: [${colIds}]) { id text }
           }
         }
       }
@@ -752,19 +758,25 @@ async function fetchItems(token) {
   const json = await res.json();
   if (json.errors) throw new Error(json.errors.map(e => e.message).join('; '));
 
-  return json.data.boards[0].groups[0].items_page.items
-    .map(item => {
-      const fcsText  = item.column_values.find(c => c.id === FCS_COL)?.text  || '';
-      const confText = item.column_values.find(c => c.id === CONF_COL)?.text || '';
-      return {
-        id:         item.id,
-        name:       item.name,
-        fcsDate:    fcsText  || null,
-        confidence: confText ? parseFloat(confText) : null
-      };
-    })
-    .filter(i => i.fcsDate)
-    .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+  const allItems = [];
+  for (const group of json.data.boards[0].groups) {
+    for (const item of group.items_page.items) {
+      const colMap = {};
+      for (const cv of item.column_values) {
+        colMap[cv.id] = cv.text || null;
+      }
+      allItems.push({
+        id:          item.id,
+        name:        item.name,
+        group_id:    group.id,
+        group_title: group.title,
+        fcsDate:     colMap[FCS_COL]  || null,
+        confidence:  colMap[CONF_COL] ? parseFloat(colMap[CONF_COL]) : null,
+        colMap:      colMap
+      });
+    }
+  }
+  return allItems;
 }
 
 // ── Date helpers ─────────────────────────────────────────────────────────────
@@ -968,52 +980,64 @@ async function loadHistory() {
   }
 }
 
-// Diff current live items against the latest snapshot and append new changes
-function diffAndRecord(liveItems) {
+// ── Snapshot helpers (localStorage) ─────────────────────────────────────────
+// We store the most-recent live state here so every diff is incremental.
+// This means A→B then B→C are two separate records, never collapsed into A→C.
+const LS_SNAPSHOT_KEY = 'fcs_snapshot_v2';
+
+function getStoredSnapshot() {
+  try { return JSON.parse(localStorage.getItem(LS_SNAPSHOT_KEY) || 'null'); }
+  catch(e) { return null; }
+}
+
+function storeSnapshot(allItems) {
+  const snap = {};
+  allItems.forEach(item => {
+    snap[item.id] = Object.assign({ name: item.name, group_id: item.group_id }, item.colMap);
+  });
+  try { localStorage.setItem(LS_SNAPSHOT_KEY, JSON.stringify(snap)); } catch(e) {}
+}
+
+// Diff ALL live items (all groups, all fields) against the last stored snapshot.
+// After diffing, the current state becomes the new snapshot.
+function diffAndRecord(allItems) {
   if (!historyData) return;
 
-  const snapshots = historyData.snapshots;
-  if (!snapshots || !snapshots.length) return;
+  // Prefer localStorage snapshot (always up-to-date); fall back to history.json baseline
+  let prevState = getStoredSnapshot();
+  if (!prevState) {
+    const snapshots = historyData.snapshots;
+    if (snapshots && snapshots.length) {
+      prevState = snapshots[snapshots.length - 1].items || {};
+    }
+  }
 
-  // Latest snapshot is the last entry
-  const latestSnap = snapshots[snapshots.length - 1];
-  const snapItems  = latestSnap.items || {};
-  const changelog  = historyData.changelog;
+  const now       = isoNow();
+  const changelog = historyData.changelog;
+  const DIFF_FIELDS = [
+    'date_mm06txhj', 'numeric_mkz3rvnr', 'status',
+    'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd', 'name'
+  ];
 
-  const now = isoNow();
+  allItems.forEach(item => {
+    const prev = prevState ? prevState[item.id] : null;
+    if (!prev) return; // brand-new item — will be snapshotted, tracked next time
 
-  // Build a map of live items by id for easy lookup
-  const liveMap = {};
-  liveItems.forEach(item => {
-    liveMap[item.id] = {
-      name:             item.name,
-      date_mm06txhj:    item.fcsDate,
-      numeric_mkz3rvnr: item.confidence != null ? String(item.confidence) : null
-    };
-  });
+    const groupTitle = GROUP_NAMES[item.group_id] || item.group_title || item.group_id;
 
-  // Check each live item against the snapshot
-  liveItems.forEach(item => {
-    const snap   = snapItems[item.id];
-    const live   = liveMap[item.id];
-    const groupId = (snap && snap.group_id) ? snap.group_id : GROUP_ID;
-    const groupTitle = GROUP_NAMES[groupId] || groupId;
+    DIFF_FIELDS.forEach(field => {
+      const liveVal = (field === 'name') ? item.name : item.colMap[field];
+      const snapVal = prev[field];
 
-    const fields = ['date_mm06txhj', 'numeric_mkz3rvnr'];
-
-    fields.forEach(field => {
-      const snapVal = snap ? snap[field] : undefined;
-      const liveVal = live[field];
-
-      // Normalise: treat null/undefined/"" as null, and numbers as strings
       const normSnap = (snapVal == null || snapVal === '') ? null : String(snapVal);
       const normLive = (liveVal == null || liveVal === '') ? null : String(liveVal);
 
       if (normSnap !== normLive) {
-        // Check we haven't already recorded this exact change
+        // Dedupe: exact same transition already logged
         const isDupe = changelog.some(c =>
           c.itemId === item.id &&
           c.field  === field   &&
+          c.from   === normSnap &&
           c.to     === normLive
         );
         if (!isDupe) {
@@ -1021,7 +1045,7 @@ function diffAndRecord(liveItems) {
             timestamp:  now,
             itemId:     item.id,
             itemName:   item.name,
-            groupId:    groupId,
+            groupId:    item.group_id,
             groupTitle: groupTitle,
             field:      field,
             fieldTitle: TRACKED_COLS[field] || field,
@@ -1033,35 +1057,10 @@ function diffAndRecord(liveItems) {
     });
   });
 
-  // Also detect items that gained a name/group change (name field)
-  liveItems.forEach(item => {
-    const snap = snapItems[item.id];
-    if (snap && snap.name !== item.name) {
-      const isDupe = changelog.some(c =>
-        c.itemId === item.id && c.field === 'name' && c.to === item.name
-      );
-      if (!isDupe) {
-        changelog.push({
-          timestamp:  now,
-          itemId:     item.id,
-          itemName:   item.name,
-          groupId:    GROUP_ID,
-          groupTitle: GROUP_NAMES[GROUP_ID] || GROUP_ID,
-          field:      'name',
-          fieldTitle: 'Name',
-          from:       snap.name,
-          to:         item.name
-        });
-      }
-    }
-  });
+  // ⚠️ Update snapshot AFTER diffing so the next refresh diffs against NOW
+  storeSnapshot(allItems);
 
-  // Save updated history back to localStorage (can't write files from browser,
-  // but we persist the changelog in localStorage so it survives page reloads
-  // and accumulates until the next git commit updates history.json)
   persistChangelogLocally(changelog);
-
-  // Merge any locally-persisted entries not yet in the file
   mergeLocalChangelog();
   renderSidebar();
 }
@@ -1112,12 +1111,8 @@ function renderSidebar() {
 
   const body = document.getElementById('sidebar-body');
 
-  // Only show changes for items in the chart group (Active Developments)
-  // For date/confidence changes specifically
-  let entries = historyData.changelog.filter(c =>
-    c.groupId === GROUP_ID &&
-    (c.field === 'date_mm06txhj' || c.field === 'numeric_mkz3rvnr')
-  );
+  // Show all changes across all groups
+  let entries = historyData.changelog.slice();
 
   if (activeFilter === 'date') {
     entries = entries.filter(c => c.field === 'date_mm06txhj');
@@ -1142,13 +1137,21 @@ function renderSidebar() {
   }
 
   body.innerHTML = entries.map(c => {
-    const isDate = c.field === 'date_mm06txhj';
-    const fromLabel = c.from ? (isDate ? prettyDate(c.from) : c.from + '%') : '—';
-    const toLabel   = c.to   ? (isDate ? prettyDate(c.to)   : c.to   + '%') : '—';
-
-    let toClass = isDate ? 'date-change' : '';
-    if (!isDate && c.to) {
-      toClass = confClass(parseFloat(c.to));
+    let fromLabel, toLabel, toClass = '';
+    if (c.field === 'date_mm06txhj') {
+      fromLabel = c.from ? prettyDate(c.from) : '—';
+      toLabel   = c.to   ? prettyDate(c.to)   : '—';
+      toClass   = 'date-change';
+    } else if (c.field === 'numeric_mkz3rvnr') {
+      fromLabel = c.from != null ? c.from + '%' : '—';
+      toLabel   = c.to   != null ? c.to   + '%' : '—';
+      if (c.to) toClass = confClass(parseFloat(c.to));
+    } else if (c.field === 'boolean_mm06c6vy' || c.field === 'boolean_mm06jadd') {
+      fromLabel = c.from === 'true' ? '✓' : c.from === 'false' ? '✗' : c.from || '—';
+      toLabel   = c.to   === 'true' ? '✓' : c.to   === 'false' ? '✗' : c.to   || '—';
+    } else {
+      fromLabel = c.from || '—';
+      toLabel   = c.to   || '—';
     }
 
     return `
@@ -1204,12 +1207,17 @@ async function loadData(manual = false) {
   document.getElementById('next-refresh').textContent = '';
 
   try {
-    const items = await fetchItems(token);
-    renderChart(items);
+    const allItems  = await fetchItems(token);
 
-    // Diff against history snapshot if available
+    // Chart only shows Active Developments items that have an FCS date
+    const chartItems = allItems
+      .filter(i => i.group_id === GROUP_ID && i.fcsDate)
+      .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+    renderChart(chartItems);
+
+    // Diff the full board (all groups, all fields) for the change history
     if (historyData) {
-      diffAndRecord(items);
+      diffAndRecord(allItems);
     }
 
     const now = new Date();
