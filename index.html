@@ -1019,11 +1019,51 @@ function diffAndRecord(allItems) {
   ];
 
   allItems.forEach(item => {
-    const prev = prevState ? prevState[item.id] : null;
-    if (!prev) return; // brand-new item — will be snapshotted, tracked next time
-
+    const prev       = prevState ? prevState[item.id] : null;
     const groupTitle = GROUP_NAMES[item.group_id] || item.group_title || item.group_id;
 
+    // ── New item: log an "added" event ──────────────────────────────────────
+    if (!prev) {
+      const isDupe = changelog.some(c => c.itemId === item.id && c.field === '_added');
+      if (!isDupe) {
+        changelog.push({
+          timestamp:  now,
+          itemId:     item.id,
+          itemName:   item.name,
+          groupId:    item.group_id,
+          groupTitle: groupTitle,
+          field:      '_added',
+          fieldTitle: 'Added to board',
+          from:       null,
+          to:         groupTitle
+        });
+      }
+      return; // will be in snapshot for future diffs
+    }
+
+    // ── Group move ───────────────────────────────────────────────────────────
+    if (prev.group_id && prev.group_id !== item.group_id) {
+      const fromGroup = GROUP_NAMES[prev.group_id] || prev.group_id;
+      const isDupe = changelog.some(c =>
+        c.itemId === item.id && c.field === '_group' &&
+        c.from === fromGroup && c.to === groupTitle
+      );
+      if (!isDupe) {
+        changelog.push({
+          timestamp:  now,
+          itemId:     item.id,
+          itemName:   item.name,
+          groupId:    item.group_id,
+          groupTitle: groupTitle,
+          field:      '_group',
+          fieldTitle: 'Moved to group',
+          from:       fromGroup,
+          to:         groupTitle
+        });
+      }
+    }
+
+    // ── Field changes ────────────────────────────────────────────────────────
     DIFF_FIELDS.forEach(field => {
       const liveVal = (field === 'name') ? item.name : item.colMap[field];
       const snapVal = prev[field];
@@ -1137,7 +1177,13 @@ function renderSidebar() {
 
   body.innerHTML = entries.map(c => {
     let fromLabel, toLabel, toClass = '';
-    if (c.field === 'date_mm06txhj') {
+    if (c.field === '_added') {
+      fromLabel = null;
+      toLabel   = c.to || '—';
+    } else if (c.field === '_group') {
+      fromLabel = c.from || '—';
+      toLabel   = c.to   || '—';
+    } else if (c.field === 'date_mm06txhj') {
       fromLabel = c.from ? prettyDate(c.from) : '—';
       toLabel   = c.to   ? prettyDate(c.to)   : '—';
       toClass   = 'date-change';
@@ -1161,8 +1207,7 @@ function renderSidebar() {
         </div>
         <div class="change-detail">
           <span class="change-field">${esc(c.fieldTitle)}</span>
-          <span class="change-from">${esc(fromLabel)}</span>
-          <span class="change-arrow">→</span>
+          ${fromLabel != null ? `<span class="change-from">${esc(fromLabel)}</span><span class="change-arrow">→</span>` : ''}
           <span class="change-to ${toClass}">${esc(toLabel)}</span>
         </div>
         <div class="change-group">${esc(c.groupTitle)}</div>
