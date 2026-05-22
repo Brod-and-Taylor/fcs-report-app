@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "description": "Persistent change history for the Product Roadmap board on monday.com. Each refresh of the web app compares current board state against the last known snapshot and appends any detected changes to the changelog array. This file grows indefinitely — do not truncate it.",
+    "board_id": "18364310005",
+    "board_name": "Product Roadmap",
+    "board_url": "https://brod-and-taylor.monday.com/boards/18364310005",
+    "workspace": "B&T",
+    "tracked_fields": [
+      { "id": "date_mm06txhj",   "title": "FCS",        "type": "date"    },
+      { "id": "numeric_mkz3rvnr","title": "Confidence", "type": "numbers" },
+      { "id": "status",          "title": "Priority",   "type": "status"  },
+      { "id": "color_mkxf9nhp",  "title": "Action",     "type": "status"  },
+      { "id": "boolean_mm06c6vy","title": "Pre-Tool Review",  "type": "checkbox" },
+      { "id": "boolean_mm06jadd","title": "Post-Tool Review", "type": "checkbox" },
+      { "id": "name",            "title": "Name",       "type": "name"    }
+    ],
+    "created_at": "2026-05-23T00:00:00Z",
+    "schema_version": "1.0"
+  },
+  "groups": [
+    { "id": "group_title",     "title": "Concept Development" },
+    { "id": "group_mkxfjfcm", "title": "Product Upgrades / Cost Reductions" },
+    { "id": "topics",          "title": "Active Developments" },
+    { "id": "group_mkxncbsv", "title": "Completed Developments" },
+    { "id": "group_mkxnn81v", "title": "Ideas" }
+  ],
+  "snapshots": [
+    {
+      "timestamp": "2026-05-23T00:00:00Z",
+      "type": "initial_snapshot",
+      "note": "Baseline snapshot captured on 2026-05-23. All subsequent changes will be diffed against the most recent snapshot.",
+      "items": {
+        "10855527039": { "name": "New Scale",                         "group_id": "group_title",     "status": "Medium", "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18369742702": { "name": "Breadbox and Cutting Station Combo","group_id": "group_title",     "status": "Medium", "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18364334837": { "name": "Dough Machine",                     "group_id": "group_title",     "status": "High",   "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18378128037": { "name": "Next Day Sourdough",                "group_id": "group_title",     "status": "High",   "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11621663770": { "name": "Custom B&T App",                    "group_id": "group_title",     "status": "Medium", "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11512335138": { "name": "Banneton Brush",                    "group_id": "group_title",     "status": "Low",    "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18364458108": { "name": "Starter Kit",                       "group_id": "group_title",     "status": "High",   "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-07-01", "numeric_mkz3rvnr": "50"  },
+        "11384743264": { "name": "SH-100 Matte Update",               "group_id": "group_mkxfjfcm", "status": "Medium", "color_mkxf9nhp": "Waiting",         "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11424599518": { "name": "Dough Whisk Cost Reduction",        "group_id": "group_mkxfjfcm", "status": "Medium", "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11147509915": { "name": "Bread Peel",                        "group_id": "group_mkxfjfcm", "status": "Medium", "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2027-01-01", "numeric_mkz3rvnr": "80"  },
+        "11701889284": { "name": "Web Dev Upgrade",                   "group_id": "group_mkxfjfcm", "status": "High",   "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11917708994": { "name": "Genimex Dough Whisk",               "group_id": "group_mkxfjfcm", "status": "Medium", "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18364310204": { "name": "Bread Steel Duo",                   "group_id": "topics",          "status": "Low",    "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-05-26", "numeric_mkz3rvnr": "100" },
+        "18364614638": { "name": "1 Box Sheeter Package",             "group_id": "topics",          "status": "High",   "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-08-25", "numeric_mkz3rvnr": "90"  },
+        "18364450778": { "name": "Bread Knife",                       "group_id": "topics",          "status": "Medium", "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": true,  "date_mm06txhj": "2026-09-01", "numeric_mkz3rvnr": "80"  },
+        "18364459284": { "name": "Sourdough Home Plus",               "group_id": "topics",          "status": "High",   "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-09-10", "numeric_mkz3rvnr": "75"  },
+        "18364451333": { "name": "Scoring Knife",                     "group_id": "topics",          "status": "High",   "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": true,  "boolean_mm06jadd": false, "date_mm06txhj": "2026-11-01", "numeric_mkz3rvnr": "80"  },
+        "10782814193": { "name": "New Banneton Sizes",                "group_id": "topics",          "status": "Medium", "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": true,  "boolean_mm06jadd": false, "date_mm06txhj": "2026-11-01", "numeric_mkz3rvnr": "80"  },
+        "18366766347": { "name": "Bread Pan",                         "group_id": "topics",          "status": "High",   "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": true,  "boolean_mm06jadd": true,  "date_mm06txhj": "2027-02-01", "numeric_mkz3rvnr": "65"  },
+        "18364460003": { "name": "Proofing Mat",                      "group_id": "topics",          "status": "High",   "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": true,  "boolean_mm06jadd": false, "date_mm06txhj": "2027-03-01", "numeric_mkz3rvnr": "75"  },
+        "18364460937": { "name": "Glass Proofing Container",          "group_id": "topics",          "status": "Low",    "color_mkxf9nhp": "Factory Dev",     "boolean_mm06c6vy": true,  "boolean_mm06jadd": false, "date_mm06txhj": "2027-03-01", "numeric_mkz3rvnr": "90"  },
+        "18364327449": { "name": "Essentials Kit",                    "group_id": "group_mkxncbsv", "status": "High",   "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-04-30", "numeric_mkz3rvnr": "100" },
+        "18364326517": { "name": "Starter Spatula",                   "group_id": "group_mkxncbsv", "status": "High",   "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": true,  "boolean_mm06jadd": false, "date_mm06txhj": "2026-04-30", "numeric_mkz3rvnr": "100" },
+        "18364310180": { "name": "Proofer Pro",                       "group_id": "group_mkxncbsv", "status": "High",   "color_mkxf9nhp": "Manufacturing",   "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-04-02", "numeric_mkz3rvnr": "100" },
+        "18364310166": { "name": "Sheeter",                           "group_id": "group_mkxncbsv", "status": "High",   "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2026-01-30", "numeric_mkz3rvnr": "95"  },
+        "18377873328": { "name": "Bannetons",                         "group_id": "group_mkxncbsv", "status": "High",   "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": "2025-10-06", "numeric_mkz3rvnr": null  },
+        "11701497162": { "name": "Proofer Electronics Unification",   "group_id": "group_mkxnn81v", "status": "Medium", "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18364335613": { "name": "Sheeter v2",                        "group_id": "group_mkxnn81v", "status": "Low",    "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18364310219": { "name": "Proofer v2",                        "group_id": "group_mkxnn81v", "status": "Low",    "color_mkxf9nhp": "Needed",          "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18378129033": { "name": "Mixer",                             "group_id": "group_mkxnn81v", "status": "Low",    "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18378130392": { "name": "Boule/Batard Peel Mats",            "group_id": "group_mkxnn81v", "status": null,     "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "18378131897": { "name": "Rolling Pin",                       "group_id": "group_mkxnn81v", "status": null,     "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11135350037": { "name": "Proofer Electronics Redesign",      "group_id": "group_mkxnn81v", "status": "Medium", "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11319841471": { "name": "Biodegradable Shower Cap for Bannetons","group_id":"group_mkxnn81v","status":"Low",    "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11436803502": { "name": "Flour storage and pouring container","group_id": "group_mkxnn81v", "status": "Low",    "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11167630578": { "name": "Bread Bag? Beeswax? (waxed linen bag from genimex)","group_id":"group_mkxnn81v","status":"Medium","color_mkxf9nhp":"Concept Design","boolean_mm06c6vy":false,"boolean_mm06jadd":false,"date_mm06txhj":null,"numeric_mkz3rvnr":null},
+        "11176018302": { "name": "Bread Steel Warping Fix",           "group_id": "group_mkxnn81v", "status": "High",   "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11322654517": { "name": "Metal Starter Spoon",               "group_id": "group_mkxnn81v", "status": "Low",    "color_mkxf9nhp": "Concept Design",  "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11512325121": { "name": "Richlite Cutting Board",            "group_id": "group_mkxnn81v", "status": null,     "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11512323887": { "name": "Cast Iron Bread Pan",               "group_id": "group_mkxnn81v", "status": null,     "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  },
+        "11540367676": { "name": "Baking Shell Significant Cost Reduction","group_id":"group_mkxnn81v","status":null,    "color_mkxf9nhp": null,              "boolean_mm06c6vy": false, "boolean_mm06jadd": false, "date_mm06txhj": null,         "numeric_mkz3rvnr": null  }
+      }
+    }
+  ],
+  "changelog": []
+}

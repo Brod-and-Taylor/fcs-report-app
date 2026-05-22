@@ -13,7 +13,6 @@
       color: #323338;
     }
 
-    /* ââ Token Modal ââ */
     /* ── Password Gate ── */
     #password-gate {
       display: none;
@@ -63,6 +62,7 @@
     }
     #pw-submit:hover { background: #0060c0; }
 
+    /* ── Token Modal ── */
     #token-modal {
       display: none;
       position: fixed;
@@ -109,7 +109,7 @@
     }
     #connect-btn:hover { background: #0060c0; }
 
-    /* ââ Header ââ */
+    /* ── Header ── */
     .header {
       background: #fff;
       border-bottom: 1px solid #e6e9ef;
@@ -145,8 +145,50 @@
     .btn-primary:hover { background: #0060c0; }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* ââ Main ââ */
-    .main { padding: 24px; }
+    /* ── History button badge ── */
+    .btn-history {
+      background: transparent;
+      border: 1px solid #c5c7d4;
+      color: #676879;
+      position: relative;
+    }
+    .btn-history:hover { background: #f6f7fb; }
+    .btn-history.active {
+      background: #f0f7ff;
+      border-color: #0073ea;
+      color: #0073ea;
+    }
+    #history-badge {
+      display: none;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e2445c;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      padding: 0 4px;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    #history-badge.show { display: flex; }
+
+    /* ── Layout with sidebar ── */
+    .app-body {
+      display: flex;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+    }
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      transition: margin-right 0.3s ease;
+    }
     .card {
       background: #fff;
       border-radius: 12px;
@@ -154,7 +196,185 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    /* ââ Chart ââ */
+    /* ── History Sidebar ── */
+    #history-sidebar {
+      width: 0;
+      overflow: hidden;
+      background: #fff;
+      border-left: 1px solid #e6e9ef;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s ease;
+      flex-shrink: 0;
+    }
+    #history-sidebar.open {
+      width: 360px;
+    }
+    .sidebar-inner {
+      width: 360px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid #e6e9ef;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #323338;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-title svg { color: #676879; }
+    .sidebar-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #676879;
+      font-size: 16px;
+      transition: background 0.15s;
+    }
+    .sidebar-close:hover { background: #f6f7fb; }
+
+    /* Filter tabs inside sidebar */
+    .sidebar-filters {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid #f0f1f5;
+      flex-shrink: 0;
+    }
+    .filter-chip {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #e6e9ef;
+      background: transparent;
+      color: #676879;
+      transition: all 0.12s;
+    }
+    .filter-chip:hover { border-color: #0073ea; color: #0073ea; }
+    .filter-chip.active { background: #0073ea; border-color: #0073ea; color: #fff; }
+
+    /* Sidebar body / log */
+    .sidebar-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0 20px;
+    }
+    .sidebar-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #9699a6;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .sidebar-empty svg {
+      display: block;
+      margin: 0 auto 12px;
+      opacity: 0.3;
+    }
+
+    /* Change entry */
+    .change-entry {
+      padding: 10px 18px 10px;
+      border-bottom: 1px solid #f3f4f8;
+      cursor: default;
+      transition: background 0.1s;
+    }
+    .change-entry:last-child { border-bottom: none; }
+    .change-entry:hover { background: #fafbfd; }
+    .change-entry-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .change-item-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #323338;
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .change-time {
+      font-size: 10px;
+      color: #9699a6;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .change-detail {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .change-field {
+      font-size: 11px;
+      font-weight: 600;
+      color: #676879;
+      background: #f3f4f8;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .change-arrow {
+      font-size: 11px;
+      color: #9699a6;
+    }
+    .change-from {
+      font-size: 11px;
+      color: #9699a6;
+      text-decoration: line-through;
+    }
+    .change-to {
+      font-size: 11px;
+      font-weight: 600;
+      color: #323338;
+    }
+    .change-to.conf-high   { color: #00843d; }
+    .change-to.conf-mid    { color: #3d73ea; }
+    .change-to.conf-low    { color: #c87400; }
+    .change-to.conf-vlow   { color: #7a7a7a; }
+
+    /* Date changes */
+    .change-to.date-change { color: #0073ea; }
+
+    /* Group label pill */
+    .change-group {
+      font-size: 10px;
+      color: #9699a6;
+      margin-top: 3px;
+    }
+
+    /* Sidebar loading */
+    .sidebar-loading {
+      padding: 40px 20px;
+      text-align: center;
+      color: #9699a6;
+      font-size: 12px;
+    }
+
+    /* ── Chart ── */
     .chart-header {
       display: flex;
       padding-bottom: 10px;
@@ -263,7 +483,7 @@
       pointer-events: none;
     }
 
-    /* ââ Tooltip ââ */
+    /* ── Tooltip ── */
     #tooltip {
       position: fixed;
       background: #323338;
@@ -284,7 +504,7 @@
     .tt-conf   { display: flex; align-items: center; gap: 6px; font-size: 12px; }
     .tt-swatch { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ââ Legend ââ */
+    /* ── Legend ── */
     .legend {
       display: flex;
       flex-wrap: wrap;
@@ -302,7 +522,7 @@
     }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-    /* ââ States ââ */
+    /* ── States ── */
     .state-msg { padding: 48px; text-align: center; color: #676879; font-size: 14px; }
     .state-error {
       color: #d83a52;
@@ -334,7 +554,7 @@
       .header-actions { gap: 8px; }
       #next-refresh { display: none; }
       #last-updated { font-size: 11px; }
-      .main { padding: 12px; }
+      .main-content { padding: 12px; }
       .card {
         padding: 14px 0 20px;
         overflow: visible;
@@ -342,7 +562,6 @@
       .legend { padding: 12px 14px 0; margin-top: 12px; gap: 10px; }
       .dot { width: 18px; height: 18px; }
       .conf-badge { font-size: 8px; }
-      /* Mobile tooltip: fixed bottom sheet */
       #tooltip.mobile-show {
         position: fixed !important;
         left: 12px !important;
@@ -356,6 +575,8 @@
         font-size: 14px;
         text-align: center;
       }
+      #history-sidebar.open { width: 100vw; }
+      .sidebar-inner { width: 100vw; }
     }
   </style>
 </head>
@@ -390,16 +611,53 @@
   <div class="header-actions">
     <span id="last-updated"></span>
     <span id="next-refresh"></span>
-    <button class="btn btn-ghost" onclick="clearToken()" style="display:none">â API Token</button>
+    <button class="btn btn-ghost" onclick="clearToken()" style="display:none">⚙ API Token</button>
+    <button class="btn btn-history" id="history-btn" onclick="toggleSidebar()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" fill="currentColor"/>
+        <path d="M8 4a.75.75 0 0 1 .75.75v3.69l2.28 2.28a.75.75 0 1 1-1.06 1.06l-2.5-2.5A.75.75 0 0 1 7.25 8.75V4.75A.75.75 0 0 1 8 4z" fill="currentColor"/>
+      </svg>
+      Change History
+      <span id="history-badge"></span>
+    </button>
     <button class="btn btn-primary" id="refresh-btn" onclick="loadData(true)">Refresh</button>
   </div>
 </div>
 
-<!-- Content -->
-<div class="main">
-  <div class="card">
-    <div id="chart-area">
-      <div class="state-msg">Loading...</div>
+<!-- App body: chart + sidebar -->
+<div class="app-body">
+  <!-- Main chart -->
+  <div class="main-content">
+    <div class="card">
+      <div id="chart-area">
+        <div class="state-msg">Loading...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change History Sidebar -->
+  <div id="history-sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" fill="currentColor"/>
+            <path d="M8 4a.75.75 0 0 1 .75.75v3.69l2.28 2.28a.75.75 0 1 1-1.06 1.06l-2.5-2.5A.75.75 0 0 1 7.25 8.75V4.75A.75.75 0 0 1 8 4z" fill="currentColor"/>
+          </svg>
+          Change History
+        </div>
+        <button class="sidebar-close" onclick="closeSidebar()" title="Close">✕</button>
+      </div>
+
+      <div class="sidebar-filters">
+        <button class="filter-chip active" data-filter="all"        onclick="setFilter('all',this)">All</button>
+        <button class="filter-chip"        data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
+        <button class="filter-chip"        data-filter="confidence" onclick="setFilter('confidence',this)">Confidence</button>
+      </div>
+
+      <div class="sidebar-body" id="sidebar-body">
+        <div class="sidebar-loading">Loading change history…</div>
+      </div>
     </div>
   </div>
 </div>
@@ -415,26 +673,43 @@
 </div>
 
 <script>
-// ââ Config ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-const BOARD_ID  = 18364310005;
-const GROUP_ID  = 'topics';
-const FCS_COL   = 'date_mm06txhj';
-const CONF_COL  = 'numeric_mkz3rvnr';
-const AUTO_REFRESH_MS = 5 * 60 * 1000;   // 5 minutes
-const MONTHS    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// ── Config ──────────────────────────────────────────────────────────────────
+const BOARD_ID        = 18364310005;
+const GROUP_ID        = 'topics';
+const FCS_COL         = 'date_mm06txhj';
+const CONF_COL        = 'numeric_mkz3rvnr';
+const HISTORY_FILE    = './history.json';
+const AUTO_REFRESH_MS = 5 * 60 * 1000;  // 5 minutes
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// ââ Confidence colours ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Columns tracked for diffing (history.json key → human title)
+const TRACKED_COLS = {
+  'date_mm06txhj':    'FCS Date',
+  'numeric_mkz3rvnr': 'Confidence',
+  'status':           'Priority',
+  'color_mkxf9nhp':   'Action',
+  'boolean_mm06c6vy': 'Pre-Tool Review',
+  'boolean_mm06jadd': 'Post-Tool Review',
+  'name':             'Name'
+};
+
+// ── Confidence colours ───────────────────────────────────────────────────────
 function confColor(pct) {
   if (pct >= 90) return '#00c875';
   if (pct >= 75) return '#579bfc';
   if (pct >= 60) return '#fdab3d';
   return '#c4c4c4';
 }
+function confClass(pct) {
+  if (pct >= 90) return 'conf-high';
+  if (pct >= 75) return 'conf-mid';
+  if (pct >= 60) return 'conf-low';
+  return 'conf-vlow';
+}
 
-// ââ Saved token (paste your monday.com API token between the quotes below) ââââ
+// ── Saved token ──────────────────────────────────────────────────────────────
 const SAVED_TOKEN = '';
 
-// ââ Token management ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function getToken()  { return SAVED_TOKEN || localStorage.getItem('monday_token'); }
 function saveToken() {
   const t = document.getElementById('token-input').value.trim();
@@ -449,7 +724,7 @@ function clearToken() {
   document.getElementById('token-modal').classList.add('open');
 }
 
-// ââ API âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── API ──────────────────────────────────────────────────────────────────────
 async function fetchItems(token) {
   const query = `{
     boards(ids: [${BOARD_ID}]) {
@@ -493,7 +768,7 @@ async function fetchItems(token) {
     .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
 }
 
-// ââ Date helpers ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Date helpers ─────────────────────────────────────────────────────────────
 function parseDate(s) {
   const [y, m, d] = s.split('-').map(Number);
   return new Date(y, m - 1, d);
@@ -504,8 +779,25 @@ function prettyDate(s) {
 function monthStart(d, offset = 0) {
   return new Date(d.getFullYear(), d.getMonth() + offset, 1);
 }
+function isoNow() {
+  return new Date().toISOString();
+}
+function formatChangeTime(isoStr) {
+  const d = new Date(isoStr);
+  const now = new Date();
+  const diffMs = now - d;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHrs  = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
 
-// ââ Render ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  if (diffMins < 1)   return 'Just now';
+  if (diffMins < 60)  return `${diffMins}m ago`;
+  if (diffHrs  < 24)  return `${diffHrs}h ago`;
+  if (diffDays < 7)   return `${diffDays}d ago`;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
+}
+
+// ── Render chart ─────────────────────────────────────────────────────────────
 function renderChart(items) {
   const area = document.getElementById('chart-area');
 
@@ -529,7 +821,6 @@ function renderChart(items) {
   const totalMs = rangeEnd - rangeStart;
   const pct = d => ((d - rangeStart) / totalMs) * 100;
 
-  // Month list
   const monthList = [];
   let cur = new Date(rangeStart);
   while (cur < rangeEnd) {
@@ -537,7 +828,6 @@ function renderChart(items) {
     cur = monthStart(cur, 1);
   }
 
-  // Label column width — narrower on mobile
   const isMobile = window.innerWidth < 680;
   const cvs = document.createElement('canvas');
   const ctx = cvs.getContext('2d');
@@ -548,13 +838,10 @@ function renderChart(items) {
     Math.max(...items.map(i => ctx.measureText(i.name).width)) + 20
   ));
 
-  // Minimum chart width for horizontal scrolling on mobile
   const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
-
   const todayPct  = pct(today);
   const showToday = todayPct >= 0 && todayPct <= 100;
 
-  // Month ticks HTML
   const monthTicksHtml = monthList.map(m => {
     const p     = pct(m);
     const label = (m.getMonth() === 0 || m === monthList[0])
@@ -567,7 +854,6 @@ function renderChart(items) {
     ? `<div class="today-tick" style="left:${todayPct}%">Today</div>`
     : '';
 
-  // Grid lines per row
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
@@ -576,7 +862,6 @@ function renderChart(items) {
     ? `<div class="today-line" style="left:${todayPct}%"></div>`
     : '';
 
-  // Item rows
   const rowsHtml = items.map(item => {
     const dp     = pct(parseDate(item.fcsDate));
     const color  = confColor(item.confidence ?? 0);
@@ -606,7 +891,6 @@ function renderChart(items) {
       </div>`;
   }).join('');
 
-  // Legend
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>90-100%</div>
@@ -631,7 +915,7 @@ function renderChart(items) {
     </div>`;
 }
 
-// ââ Tooltip âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Tooltip ──────────────────────────────────────────────────────────────────
 function showTip(e, el) {
   document.getElementById('tt-name').textContent      = el.dataset.name;
   document.getElementById('tt-date').textContent      = el.dataset.date;
@@ -651,10 +935,9 @@ function hideTip() {
   tt.classList.remove('mobile-show');
 }
 
-// Touch / tap tooltip — shows as a bottom sheet on mobile
 let tapTimer = null;
 function tapTip(e, el) {
-  if (window.innerWidth >= 680) return; // desktop handles via mouseenter
+  if (window.innerWidth >= 680) return;
   e.stopPropagation();
   clearTimeout(tapTimer);
   document.getElementById('tt-name').textContent      = el.dataset.name;
@@ -665,15 +948,257 @@ function tapTip(e, el) {
   tt.classList.add('show', 'mobile-show');
   tapTimer = setTimeout(hideTip, 3500);
 }
-// Dismiss tooltip on tap elsewhere
 document.addEventListener('click', () => {
   if (window.innerWidth < 680) hideTip();
 });
 
-// ââ Load data + auto-refresh ââââââââââââââââââââââââââââââââââââââââââââââââââ
-let refreshTimer    = null;
-let countdownTimer  = null;
-let nextRefreshAt   = null;
+// ── History & diffing ────────────────────────────────────────────────────────
+let historyData  = null;   // parsed history.json
+let activeFilter = 'all';  // 'all' | 'date' | 'confidence'
+
+// Load history.json from the same origin
+async function loadHistory() {
+  try {
+    const res = await fetch(HISTORY_FILE + '?_=' + Date.now());
+    if (!res.ok) throw new Error('history.json not found');
+    historyData = await res.json();
+    renderSidebar();
+  } catch (e) {
+    document.getElementById('sidebar-body').innerHTML =
+      `<div class="sidebar-empty">Could not load history.json.<br><small>${esc(e.message)}</small></div>`;
+  }
+}
+
+// Diff current live items against the latest snapshot and append new changes
+function diffAndRecord(liveItems) {
+  if (!historyData) return;
+
+  const snapshots = historyData.snapshots;
+  if (!snapshots || !snapshots.length) return;
+
+  // Latest snapshot is the last entry
+  const latestSnap = snapshots[snapshots.length - 1];
+  const snapItems  = latestSnap.items || {};
+  const changelog  = historyData.changelog;
+
+  const now = isoNow();
+
+  // Build a map of live items by id for easy lookup
+  const liveMap = {};
+  liveItems.forEach(item => {
+    liveMap[item.id] = {
+      name:             item.name,
+      date_mm06txhj:    item.fcsDate,
+      numeric_mkz3rvnr: item.confidence != null ? String(item.confidence) : null
+    };
+  });
+
+  // Check each live item against the snapshot
+  liveItems.forEach(item => {
+    const snap   = snapItems[item.id];
+    const live   = liveMap[item.id];
+    const groupId = (snap && snap.group_id) ? snap.group_id : GROUP_ID;
+    const groupTitle = GROUP_NAMES[groupId] || groupId;
+
+    const fields = ['date_mm06txhj', 'numeric_mkz3rvnr'];
+
+    fields.forEach(field => {
+      const snapVal = snap ? snap[field] : undefined;
+      const liveVal = live[field];
+
+      // Normalise: treat null/undefined/"" as null, and numbers as strings
+      const normSnap = (snapVal == null || snapVal === '') ? null : String(snapVal);
+      const normLive = (liveVal == null || liveVal === '') ? null : String(liveVal);
+
+      if (normSnap !== normLive) {
+        // Check we haven't already recorded this exact change
+        const isDupe = changelog.some(c =>
+          c.itemId === item.id &&
+          c.field  === field   &&
+          c.to     === normLive
+        );
+        if (!isDupe) {
+          changelog.push({
+            timestamp:  now,
+            itemId:     item.id,
+            itemName:   item.name,
+            groupId:    groupId,
+            groupTitle: groupTitle,
+            field:      field,
+            fieldTitle: TRACKED_COLS[field] || field,
+            from:       normSnap,
+            to:         normLive
+          });
+        }
+      }
+    });
+  });
+
+  // Also detect items that gained a name/group change (name field)
+  liveItems.forEach(item => {
+    const snap = snapItems[item.id];
+    if (snap && snap.name !== item.name) {
+      const isDupe = changelog.some(c =>
+        c.itemId === item.id && c.field === 'name' && c.to === item.name
+      );
+      if (!isDupe) {
+        changelog.push({
+          timestamp:  now,
+          itemId:     item.id,
+          itemName:   item.name,
+          groupId:    GROUP_ID,
+          groupTitle: GROUP_NAMES[GROUP_ID] || GROUP_ID,
+          field:      'name',
+          fieldTitle: 'Name',
+          from:       snap.name,
+          to:         item.name
+        });
+      }
+    }
+  });
+
+  // Save updated history back to localStorage (can't write files from browser,
+  // but we persist the changelog in localStorage so it survives page reloads
+  // and accumulates until the next git commit updates history.json)
+  persistChangelogLocally(changelog);
+
+  // Merge any locally-persisted entries not yet in the file
+  mergeLocalChangelog();
+  renderSidebar();
+}
+
+const LS_CHANGELOG_KEY = 'fcs_changelog_v1';
+
+function persistChangelogLocally(changelog) {
+  try {
+    localStorage.setItem(LS_CHANGELOG_KEY, JSON.stringify(changelog));
+  } catch(e) { /* quota exceeded – ignore */ }
+}
+
+function mergeLocalChangelog() {
+  if (!historyData) return;
+  try {
+    const local = JSON.parse(localStorage.getItem(LS_CHANGELOG_KEY) || '[]');
+    const fileIds = new Set(historyData.changelog.map(c => c.timestamp + c.itemId + c.field));
+    local.forEach(entry => {
+      const key = entry.timestamp + entry.itemId + entry.field;
+      if (!fileIds.has(key)) {
+        historyData.changelog.push(entry);
+        fileIds.add(key);
+      }
+    });
+  } catch(e) { /* ignore */ }
+}
+
+const GROUP_NAMES = {
+  'group_title':     'Concept Development',
+  'group_mkxfjfcm':  'Product Upgrades / Cost Reductions',
+  'topics':          'Active Developments',
+  'group_mkxncbsv':  'Completed Developments',
+  'group_mkxnn81v':  'Ideas'
+};
+
+// ── Sidebar render ───────────────────────────────────────────────────────────
+function setFilter(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderSidebar();
+}
+
+function renderSidebar() {
+  if (!historyData) return;
+
+  mergeLocalChangelog();
+
+  const body = document.getElementById('sidebar-body');
+
+  // Only show changes for items in the chart group (Active Developments)
+  // For date/confidence changes specifically
+  let entries = historyData.changelog.filter(c =>
+    c.groupId === GROUP_ID &&
+    (c.field === 'date_mm06txhj' || c.field === 'numeric_mkz3rvnr')
+  );
+
+  if (activeFilter === 'date') {
+    entries = entries.filter(c => c.field === 'date_mm06txhj');
+  } else if (activeFilter === 'confidence') {
+    entries = entries.filter(c => c.field === 'numeric_mkz3rvnr');
+  }
+
+  // Sort newest first
+  entries = entries.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  // Update badge
+  const badge = document.getElementById('history-badge');
+  if (entries.length > 0) {
+    badge.textContent = entries.length > 99 ? '99+' : entries.length;
+    badge.classList.add('show');
+  } else {
+    badge.classList.remove('show');
+  }
+
+  if (!entries.length) {
+    body.innerHTML = `
+      <div class="sidebar-empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        No changes recorded yet for<br>FCS Date or Confidence.<br>
+        <small style="color:#c5c7d4;margin-top:6px;display:block">Changes appear here automatically<br>when data is refreshed.</small>
+      </div>`;
+    return;
+  }
+
+  body.innerHTML = entries.map(c => {
+    const isDate = c.field === 'date_mm06txhj';
+    const fromLabel = c.from ? (isDate ? prettyDate(c.from) : c.from + '%') : '—';
+    const toLabel   = c.to   ? (isDate ? prettyDate(c.to)   : c.to   + '%') : '—';
+
+    let toClass = isDate ? 'date-change' : '';
+    if (!isDate && c.to) {
+      toClass = confClass(parseFloat(c.to));
+    }
+
+    return `
+      <div class="change-entry">
+        <div class="change-entry-header">
+          <div class="change-item-name" title="${esc(c.itemName)}">${esc(c.itemName)}</div>
+          <div class="change-time">${formatChangeTime(c.timestamp)}</div>
+        </div>
+        <div class="change-detail">
+          <span class="change-field">${esc(c.fieldTitle)}</span>
+          <span class="change-from">${esc(fromLabel)}</span>
+          <span class="change-arrow">→</span>
+          <span class="change-to ${toClass}">${esc(toLabel)}</span>
+        </div>
+        <div class="change-group">${esc(c.groupTitle)}</div>
+      </div>`;
+  }).join('');
+}
+
+// ── Sidebar toggle ───────────────────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.getElementById('history-sidebar');
+  const btn     = document.getElementById('history-btn');
+  if (sidebar.classList.contains('open')) {
+    sidebar.classList.remove('open');
+    btn.classList.remove('active');
+  } else {
+    sidebar.classList.add('open');
+    btn.classList.add('active');
+    renderSidebar();
+  }
+}
+function closeSidebar() {
+  document.getElementById('history-sidebar').classList.remove('open');
+  document.getElementById('history-btn').classList.remove('active');
+}
+
+// ── Load data + auto-refresh ─────────────────────────────────────────────────
+let refreshTimer   = null;
+let countdownTimer = null;
+let nextRefreshAt  = null;
 
 async function loadData(manual = false) {
   const token = getToken();
@@ -691,11 +1216,15 @@ async function loadData(manual = false) {
     const items = await fetchItems(token);
     renderChart(items);
 
+    // Diff against history snapshot if available
+    if (historyData) {
+      diffAndRecord(items);
+    }
+
     const now = new Date();
     document.getElementById('last-updated').textContent =
       'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Schedule next auto-refresh
     nextRefreshAt = Date.now() + AUTO_REFRESH_MS;
     refreshTimer  = setTimeout(() => loadData(), AUTO_REFRESH_MS);
 
@@ -720,7 +1249,7 @@ async function loadData(manual = false) {
   }
 }
 
-// ââ Utils âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Utils ────────────────────────────────────────────────────────────────────
 function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -729,10 +1258,13 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
-// ââ Init ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Init ─────────────────────────────────────────────────────────────────────
 document.getElementById('token-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') saveToken();
 });
+
+// Load history.json on startup (no token needed)
+loadHistory();
 
 if (getToken()) {
   loadData();
@@ -742,7 +1274,7 @@ if (getToken()) {
     '<div class="state-msg">Enter your monday.com API token to get started.</div>';
 }
 
-// ── Password gate ────────────────────────────────────────────────────────
+// ── Password gate ────────────────────────────────────────────────────────────
 const PAGE_PASSWORD = 'btfcs';
 function checkPassword() {
   const input = document.getElementById('pw-input');
