@@ -541,6 +541,118 @@
     }
     .chart-inner { /* min-width set via JS */ }
 
+    /* ── View tabs ── */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e6e9ef;
+    }
+    .view-tab {
+      padding: 8px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #676879;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: #323338; }
+    .view-tab.active {
+      color: #0073ea;
+      border-bottom-color: #0073ea;
+      font-weight: 700;
+    }
+
+    /* ── KPI section ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+    .kpi-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #323338;
+      margin-bottom: 4px;
+    }
+    .kpi-card-subtitle {
+      font-size: 12px;
+      color: #676879;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .kpi-big-number {
+      font-size: 48px;
+      font-weight: 800;
+      color: #323338;
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+    }
+    .kpi-big-unit {
+      font-size: 20px;
+      font-weight: 600;
+      color: #676879;
+      margin-left: 2px;
+    }
+    .kpi-big-label {
+      font-size: 12px;
+      color: #9699a6;
+      margin-bottom: 20px;
+    }
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .kpi-table th {
+      text-align: left;
+      padding: 5px 8px 5px 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: #9699a6;
+      border-bottom: 1px solid #e6e9ef;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kpi-table td {
+      padding: 8px 8px 8px 0;
+      border-bottom: 1px solid #f3f4f8;
+      color: #323338;
+      vertical-align: middle;
+    }
+    .kpi-table tr:last-child td { border-bottom: none; }
+    .kpi-tolerance {
+      font-size: 20px;
+      font-weight: 700;
+      color: #323338;
+    }
+    .kpi-tolerance.question { color: #c5c7d4; font-style: italic; }
+    .kpi-milestone-label { font-weight: 500; }
+    .kpi-sample-size { font-size: 11px; color: #9699a6; }
+    .kpi-months-val { font-weight: 700; color: #0073ea; }
+    .kpi-date-val { color: #676879; font-size: 12px; }
+    .kpi-note {
+      font-size: 11px;
+      color: #9699a6;
+      margin-top: 16px;
+      line-height: 1.5;
+      border-top: 1px solid #f3f4f8;
+      padding-top: 12px;
+    }
+    .kpi-divider {
+      height: 1px;
+      background: #f3f4f8;
+      margin: 16px 0;
+    }
+
     /* ── Mobile ── */
     @media (max-width: 680px) {
       .header {
@@ -625,11 +737,25 @@
 
 <!-- App body: chart + sidebar -->
 <div class="app-body">
-  <!-- Main chart -->
+  <!-- Main content -->
   <div class="main-content">
-    <div class="card">
-      <div id="chart-area">
-        <div class="state-msg">Loading...</div>
+    <!-- View tabs -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tab-roadmap" onclick="switchView('roadmap')">Roadmap</button>
+      <button class="view-tab" id="tab-kpis" onclick="switchView('kpis')">KPIs</button>
+    </div>
+    <!-- Roadmap view -->
+    <div id="view-roadmap">
+      <div class="card">
+        <div id="chart-area">
+          <div class="state-msg">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <!-- KPI view -->
+    <div id="view-kpis" style="display:none">
+      <div id="kpi-area">
+        <div class="state-msg">Loading KPIs…</div>
       </div>
     </div>
   </div>
@@ -962,6 +1088,163 @@ document.addEventListener('click', () => {
   if (window.innerWidth < 680) hideTip();
 });
 
+// ── KPI Data ─────────────────────────────────────────────────────────────────
+// Entry dates into Active Developments (sourced from Monday activity log research)
+const ACTIVE_ENTRY_DATES = {
+  '18364310204': '2025-11-06', // Bread Steel Duo
+  '18364614638': '2025-12-11', // 1 Box Sheeter Package
+  '18364450778': '2025-11-06', // Bread Knife
+  '18364459284': '2025-11-06', // Sourdough Home Plus
+  '18364451333': '2025-11-06', // Scoring Knife
+  '10782814193': '2026-03-17', // New Banneton Sizes
+  '18366766347': '2026-03-26', // Bread Pan
+  '18364460003': '2025-11-06', // Proofing Mat
+  '18364460937': '2025-11-06', // Glass Proofing Container
+};
+
+// KPI 1: Historical forecast data for completed products
+// forecast3mo = FCS date prediction closest to 3 months before actual launch
+// (Sheeter & Bannetons excluded — FCS was set retroactively, no predictive data)
+const FORECAST_HISTORY = [
+  { name: 'Proofer Pro',     launchDate: '2026-04-14', forecast3mo: '2026-04-19' },
+  { name: 'Essentials Kit',  launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
+  { name: 'Starter Spatula', launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
+];
+
+let liveItemsCache = [];
+
+function shortDate(s) {
+  if (!s) return '—';
+  return parseDate(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+// ── View switching ────────────────────────────────────────────────────────────
+let currentView = 'roadmap';
+function switchView(view) {
+  currentView = view;
+  document.getElementById('view-roadmap').style.display = view === 'roadmap' ? '' : 'none';
+  document.getElementById('view-kpis').style.display    = view === 'kpis'    ? '' : 'none';
+  document.getElementById('tab-roadmap').classList.toggle('active', view === 'roadmap');
+  document.getElementById('tab-kpis').classList.toggle('active', view === 'kpis');
+  if (view === 'kpis') {
+    if (liveItemsCache.length) renderKPIs(liveItemsCache);
+    else document.getElementById('kpi-area').innerHTML =
+      '<div class="state-msg">Connect to monday.com to load KPIs.</div>';
+  }
+}
+
+// ── KPI render ────────────────────────────────────────────────────────────────
+function renderKPIs(allItems) {
+  liveItemsCache = allItems;
+  const area = document.getElementById('kpi-area');
+  if (!area || currentView !== 'kpis') return;
+
+  // ── KPI 2: Time to Market (active items only) ─────────────────────────────
+  const activeItems = allItems.filter(i => i.group_id === GROUP_ID && i.fcsDate);
+  const cycleRows = activeItems
+    .filter(i => ACTIVE_ENTRY_DATES[i.id])
+    .map(i => {
+      const entry  = parseDate(ACTIVE_ENTRY_DATES[i.id]);
+      const fcs    = parseDate(i.fcsDate);
+      const months = (fcs - entry) / (1000 * 60 * 60 * 24 * 30.44);
+      return { name: i.name, entry: ACTIVE_ENTRY_DATES[i.id], fcs: i.fcsDate, months };
+    })
+    .sort((a, b) => a.months - b.months);
+
+  const sorted = [...cycleRows.map(r => r.months)].sort((a, b) => a - b);
+  const medianMonths = sorted.length
+    ? (sorted.length % 2 === 0
+        ? (sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2
+        : sorted[Math.floor(sorted.length/2)])
+    : null;
+
+  // ── KPI 1: Forecast Accuracy (completed products) ─────────────────────────
+  const errors3mo = FORECAST_HISTORY
+    .filter(f => f.forecast3mo)
+    .map(f => (parseDate(f.forecast3mo) - parseDate(f.launchDate)) / 86400000);
+
+  const avgAbsWeeks3mo = errors3mo.length
+    ? (errors3mo.reduce((s, e) => s + Math.abs(e), 0) / errors3mo.length / 7).toFixed(1)
+    : null;
+  const n3mo = errors3mo.length;
+
+  area.innerHTML = `
+    <div class="kpi-grid">
+
+      <!-- KPI 1: Forecast Accuracy -->
+      <div class="card">
+        <div class="kpi-card-title">New Product Forecast Accuracy</div>
+        <div class="kpi-card-subtitle">
+          Average tolerance (±weeks) between predicted and actual FCS date,<br>
+          measured at key milestones before launch
+        </div>
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th style="width:44%">Milestone</th>
+              <th style="width:28%">Tolerance</th>
+              <th>Sample</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="kpi-milestone-label">12 months out</td>
+              <td><span class="kpi-tolerance question">?</span></td>
+              <td class="kpi-sample-size">No data yet</td>
+            </tr>
+            <tr>
+              <td class="kpi-milestone-label">6 months out</td>
+              <td><span class="kpi-tolerance question">?</span></td>
+              <td class="kpi-sample-size">No data yet</td>
+            </tr>
+            <tr>
+              <td class="kpi-milestone-label">3 months out</td>
+              <td><span class="kpi-tolerance">${avgAbsWeeks3mo ? `±${avgAbsWeeks3mo} wks` : '?'}</span></td>
+              <td class="kpi-sample-size">${n3mo > 0 ? `${n3mo} product${n3mo > 1 ? 's' : ''}` : '—'}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="kpi-note">
+          FCS date tracking began Feb 2026. The 12 and 6 month checkpoints will populate as
+          more products are in-flight for longer. Data updates automatically as products ship.
+        </div>
+      </div>
+
+      <!-- KPI 2: Time to Market -->
+      <div class="card">
+        <div class="kpi-card-title">Estimated Time to Market</div>
+        <div class="kpi-card-subtitle">
+          From entry into Active Developments to FCS date — active products, current projections
+        </div>
+        <div class="kpi-big-number">${medianMonths ? medianMonths.toFixed(1) : '—'}<span class="kpi-big-unit">mo</span></div>
+        <div class="kpi-big-label">median across ${cycleRows.length} active product${cycleRows.length !== 1 ? 's' : ''}</div>
+        <div class="kpi-divider"></div>
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>FCS</th>
+              <th style="text-align:right">Months</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cycleRows.map(r => `
+              <tr>
+                <td>${esc(r.name)}</td>
+                <td class="kpi-date-val">${shortDate(r.fcs)}</td>
+                <td class="kpi-months-val" style="text-align:right">${r.months.toFixed(1)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+        <div class="kpi-note">
+          Cycle times recalculate automatically when FCS dates change on Monday.com.
+          Entry dates reflect when each product first entered Active Developments.
+        </div>
+      </div>
+
+    </div>`;
+}
+
 // ── History & diffing ────────────────────────────────────────────────────────
 let historyData  = null;   // parsed history.json
 let activeFilter = 'date';  // 'date' | 'confidence'
@@ -1258,6 +1541,10 @@ async function loadData(manual = false) {
       .filter(i => i.group_id === GROUP_ID && i.fcsDate)
       .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
     renderChart(chartItems);
+
+    // Update KPI cache (renders immediately if KPI view is active)
+    liveItemsCache = allItems;
+    renderKPIs(allItems);
 
     // Diff the full board (all groups, all fields) for the change history
     if (historyData) {
