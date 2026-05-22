@@ -618,7 +618,6 @@
         <path d="M8 4a.75.75 0 0 1 .75.75v3.69l2.28 2.28a.75.75 0 1 1-1.06 1.06l-2.5-2.5A.75.75 0 0 1 7.25 8.75V4.75A.75.75 0 0 1 8 4z" fill="currentColor"/>
       </svg>
       Change History
-      <span id="history-badge"></span>
     </button>
     <button class="btn btn-primary" id="refresh-btn" onclick="loadData(true)">Refresh</button>
   </div>
@@ -1129,14 +1128,6 @@ function renderSidebar() {
   // Sort newest first
   entries = entries.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
-  // Update badge
-  const badge = document.getElementById('history-badge');
-  if (entries.length > 0) {
-    badge.textContent = entries.length > 99 ? '99+' : entries.length;
-    badge.classList.add('show');
-  } else {
-    badge.classList.remove('show');
-  }
 
   if (!entries.length) {
     body.innerHTML = `
