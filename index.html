@@ -649,8 +649,7 @@
       </div>
 
       <div class="sidebar-filters">
-        <button class="filter-chip active" data-filter="all"        onclick="setFilter('all',this)">All</button>
-        <button class="filter-chip"        data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
+        <button class="filter-chip active" data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
         <button class="filter-chip"        data-filter="confidence" onclick="setFilter('confidence',this)">Confidence</button>
       </div>
 
@@ -965,7 +964,7 @@ document.addEventListener('click', () => {
 
 // ── History & diffing ────────────────────────────────────────────────────────
 let historyData  = null;   // parsed history.json
-let activeFilter = 'all';  // 'all' | 'date' | 'confidence'
+let activeFilter = 'date';  // 'date' | 'confidence'
 
 // Load history.json from the same origin
 async function loadHistory() {
