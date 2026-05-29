@@ -13,7 +13,6 @@
       color: #323338;
     }
 
-    /* ââ Token Modal ââ */
     /* ── Password Gate ── */
     #password-gate {
       display: none;
@@ -63,6 +62,7 @@
     }
     #pw-submit:hover { background: #0060c0; }
 
+    /* ── Token Modal ── */
     #token-modal {
       display: none;
       position: fixed;
@@ -109,7 +109,7 @@
     }
     #connect-btn:hover { background: #0060c0; }
 
-    /* ââ Header ââ */
+    /* ── Header ── */
     .header {
       background: #fff;
       border-bottom: 1px solid #e6e9ef;
@@ -145,8 +145,50 @@
     .btn-primary:hover { background: #0060c0; }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* ââ Main ââ */
-    .main { padding: 24px; }
+    /* ── History button badge ── */
+    .btn-history {
+      background: transparent;
+      border: 1px solid #c5c7d4;
+      color: #676879;
+      position: relative;
+    }
+    .btn-history:hover { background: #f6f7fb; }
+    .btn-history.active {
+      background: #f0f7ff;
+      border-color: #0073ea;
+      color: #0073ea;
+    }
+    #history-badge {
+      display: none;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #e2445c;
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      min-width: 16px;
+      height: 16px;
+      border-radius: 8px;
+      padding: 0 4px;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    #history-badge.show { display: flex; }
+
+    /* ── Layout with sidebar ── */
+    .app-body {
+      display: flex;
+      height: calc(100vh - 56px);
+      overflow: hidden;
+    }
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      transition: margin-right 0.3s ease;
+    }
     .card {
       background: #fff;
       border-radius: 12px;
@@ -154,7 +196,185 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
 
-    /* ââ Chart ââ */
+    /* ── History Sidebar ── */
+    #history-sidebar {
+      width: 0;
+      overflow: hidden;
+      background: #fff;
+      border-left: 1px solid #e6e9ef;
+      display: flex;
+      flex-direction: column;
+      transition: width 0.3s ease;
+      flex-shrink: 0;
+    }
+    #history-sidebar.open {
+      width: 360px;
+    }
+    .sidebar-inner {
+      width: 360px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .sidebar-header {
+      padding: 16px 18px 12px;
+      border-bottom: 1px solid #e6e9ef;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .sidebar-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #323338;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sidebar-title svg { color: #676879; }
+    .sidebar-close {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #676879;
+      font-size: 16px;
+      transition: background 0.15s;
+    }
+    .sidebar-close:hover { background: #f6f7fb; }
+
+    /* Filter tabs inside sidebar */
+    .sidebar-filters {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px 8px;
+      border-bottom: 1px solid #f0f1f5;
+      flex-shrink: 0;
+    }
+    .filter-chip {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid #e6e9ef;
+      background: transparent;
+      color: #676879;
+      transition: all 0.12s;
+    }
+    .filter-chip:hover { border-color: #0073ea; color: #0073ea; }
+    .filter-chip.active { background: #0073ea; border-color: #0073ea; color: #fff; }
+
+    /* Sidebar body / log */
+    .sidebar-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0 20px;
+    }
+    .sidebar-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: #9699a6;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .sidebar-empty svg {
+      display: block;
+      margin: 0 auto 12px;
+      opacity: 0.3;
+    }
+
+    /* Change entry */
+    .change-entry {
+      padding: 10px 18px 10px;
+      border-bottom: 1px solid #f3f4f8;
+      cursor: default;
+      transition: background 0.1s;
+    }
+    .change-entry:last-child { border-bottom: none; }
+    .change-entry:hover { background: #fafbfd; }
+    .change-entry-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .change-item-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #323338;
+      flex: 1;
+      min-width: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .change-time {
+      font-size: 10px;
+      color: #9699a6;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .change-detail {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      flex-wrap: wrap;
+    }
+    .change-field {
+      font-size: 11px;
+      font-weight: 600;
+      color: #676879;
+      background: #f3f4f8;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .change-arrow {
+      font-size: 11px;
+      color: #9699a6;
+    }
+    .change-from {
+      font-size: 11px;
+      color: #9699a6;
+      text-decoration: line-through;
+    }
+    .change-to {
+      font-size: 11px;
+      font-weight: 600;
+      color: #323338;
+    }
+    .change-to.conf-high   { color: #00843d; }
+    .change-to.conf-mid    { color: #3d73ea; }
+    .change-to.conf-low    { color: #c87400; }
+    .change-to.conf-vlow   { color: #7a7a7a; }
+
+    /* Date changes */
+    .change-to.date-change { color: #0073ea; }
+
+    /* Group label pill */
+    .change-group {
+      font-size: 10px;
+      color: #9699a6;
+      margin-top: 3px;
+    }
+
+    /* Sidebar loading */
+    .sidebar-loading {
+      padding: 40px 20px;
+      text-align: center;
+      color: #9699a6;
+      font-size: 12px;
+    }
+
+    /* ── Chart ── */
     .chart-header {
       display: flex;
       padding-bottom: 10px;
@@ -263,7 +483,7 @@
       pointer-events: none;
     }
 
-    /* ââ Tooltip ââ */
+    /* ── Tooltip ── */
     #tooltip {
       position: fixed;
       background: #323338;
@@ -284,7 +504,7 @@
     .tt-conf   { display: flex; align-items: center; gap: 6px; font-size: 12px; }
     .tt-swatch { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-    /* ââ Legend ââ */
+    /* ── Legend ── */
     .legend {
       display: flex;
       flex-wrap: wrap;
@@ -302,7 +522,7 @@
     }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
 
-    /* ââ States ââ */
+    /* ── States ── */
     .state-msg { padding: 48px; text-align: center; color: #676879; font-size: 14px; }
     .state-error {
       color: #d83a52;
@@ -313,6 +533,205 @@
       font-size: 13px;
     }
     .state-error a { color: #d83a52; font-weight: 600; }
+
+    /* ── Chart scroll wrapper ── */
+    .chart-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .chart-inner { /* min-width set via JS */ }
+
+    /* ── View tabs ── */
+    .view-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #e6e9ef;
+    }
+    .view-tab {
+      padding: 8px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #676879;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .view-tab:hover { color: #323338; }
+    .view-tab.active {
+      color: #0073ea;
+      border-bottom-color: #0073ea;
+      font-weight: 700;
+    }
+
+    /* ── KPI section ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+    .kpi-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #323338;
+      margin-bottom: 4px;
+    }
+    .kpi-card-subtitle {
+      font-size: 12px;
+      color: #676879;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .kpi-big-number {
+      font-size: 48px;
+      font-weight: 800;
+      color: #323338;
+      line-height: 1;
+      margin-bottom: 4px;
+      letter-spacing: -1px;
+    }
+    .kpi-big-unit {
+      font-size: 20px;
+      font-weight: 600;
+      color: #676879;
+      margin-left: 2px;
+    }
+    .kpi-big-label {
+      font-size: 12px;
+      color: #9699a6;
+      margin-bottom: 20px;
+    }
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .kpi-table th {
+      text-align: left;
+      padding: 5px 8px 5px 0;
+      font-size: 10px;
+      font-weight: 700;
+      color: #9699a6;
+      border-bottom: 1px solid #e6e9ef;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .kpi-table td {
+      padding: 8px 8px 8px 0;
+      border-bottom: 1px solid #f3f4f8;
+      color: #323338;
+      vertical-align: middle;
+    }
+    .kpi-table tr:last-child td { border-bottom: none; }
+    .kpi-tolerance {
+      font-size: 20px;
+      font-weight: 700;
+      color: #323338;
+    }
+    .kpi-tolerance.question { color: #c5c7d4; font-style: italic; }
+    .kpi-milestone-label { font-weight: 500; }
+    .kpi-sample-size { font-size: 11px; color: #9699a6; }
+    .kpi-months-val { font-weight: 700; color: #0073ea; }
+    .kpi-date-val { color: #676879; font-size: 12px; }
+    .kpi-note {
+      font-size: 11px;
+      color: #9699a6;
+      margin-top: 16px;
+      line-height: 1.5;
+      border-top: 1px solid #f3f4f8;
+      padding-top: 12px;
+    }
+    .kpi-divider {
+      height: 1px;
+      background: #f3f4f8;
+      margin: 16px 0;
+    }
+
+    /* ── Timeline bar chart ── */
+    .tl-bar-wrap {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 20px;
+      border-radius: 5px;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .tl-bar-fill {
+      position: absolute;
+      inset: 0;
+      border-radius: 5px;
+    }
+    .tl-dur-label {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .tl-section-row {
+      display: flex;
+      align-items: center;
+      height: 32px;
+      background: #f6f7fb;
+      border-bottom: 1px solid #e6e9ef;
+      border-top: 1px solid #e6e9ef;
+      margin-top: 4px;
+    }
+    .tl-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9699a6;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+      padding-right: 14px;
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 680px) {
+      .header {
+        height: auto;
+        min-height: 52px;
+        padding: 10px 16px;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .header h1 { font-size: 16px; flex: 1 1 auto; }
+      .header-actions { gap: 8px; }
+      #next-refresh { display: none; }
+      #last-updated { font-size: 11px; }
+      .main-content { padding: 12px; }
+      .card {
+        padding: 14px 0 20px;
+        overflow: visible;
+      }
+      .legend { padding: 12px 14px 0; margin-top: 12px; gap: 10px; }
+      .dot { width: 18px; height: 18px; }
+      .conf-badge { font-size: 8px; }
+      #tooltip.mobile-show {
+        position: fixed !important;
+        left: 12px !important;
+        right: 12px !important;
+        bottom: 20px !important;
+        top: auto !important;
+        width: auto !important;
+        min-width: unset !important;
+        border-radius: 10px;
+        padding: 14px 16px;
+        font-size: 14px;
+        text-align: center;
+      }
+      #history-sidebar.open { width: 100vw; }
+      .sidebar-inner { width: 100vw; }
+    }
   </style>
 </head>
 <body>
@@ -346,16 +765,74 @@
   <div class="header-actions">
     <span id="last-updated"></span>
     <span id="next-refresh"></span>
-    <button class="btn btn-ghost" onclick="clearToken()" style="display:none">â API Token</button>
+    <button class="btn btn-ghost" onclick="clearToken()" style="display:none">⚙ API Token</button>
+    <button class="btn btn-history" id="history-btn" onclick="toggleSidebar()">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" fill="currentColor"/>
+        <path d="M8 4a.75.75 0 0 1 .75.75v3.69l2.28 2.28a.75.75 0 1 1-1.06 1.06l-2.5-2.5A.75.75 0 0 1 7.25 8.75V4.75A.75.75 0 0 1 8 4z" fill="currentColor"/>
+      </svg>
+      Change History
+    </button>
     <button class="btn btn-primary" id="refresh-btn" onclick="loadData(true)">Refresh</button>
   </div>
 </div>
 
-<!-- Content -->
-<div class="main">
-  <div class="card">
-    <div id="chart-area">
-      <div class="state-msg">Loading...</div>
+<!-- App body: chart + sidebar -->
+<div class="app-body">
+  <!-- Main content -->
+  <div class="main-content">
+    <!-- View tabs -->
+    <div class="view-tabs">
+      <button class="view-tab active" id="tab-roadmap"  onclick="switchView('roadmap')">Roadmap</button>
+      <button class="view-tab"        id="tab-kpis"     onclick="switchView('kpis')">KPIs</button>
+      <button class="view-tab"        id="tab-timeline" onclick="switchView('timeline')">Timeline</button>
+    </div>
+    <!-- Roadmap view -->
+    <div id="view-roadmap">
+      <div class="card">
+        <div id="chart-area">
+          <div class="state-msg">Loading...</div>
+        </div>
+      </div>
+    </div>
+    <!-- Timeline view -->
+    <div id="view-timeline" style="display:none">
+      <div class="card">
+        <div id="timeline-area">
+          <div class="state-msg">Loading…</div>
+        </div>
+      </div>
+    </div>
+    <!-- KPI view -->
+    <div id="view-kpis" style="display:none">
+      <div id="kpi-area">
+        <div class="state-msg">Loading KPIs…</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change History Sidebar -->
+  <div id="history-sidebar">
+    <div class="sidebar-inner">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+            <path d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z" fill="currentColor"/>
+            <path d="M8 4a.75.75 0 0 1 .75.75v3.69l2.28 2.28a.75.75 0 1 1-1.06 1.06l-2.5-2.5A.75.75 0 0 1 7.25 8.75V4.75A.75.75 0 0 1 8 4z" fill="currentColor"/>
+          </svg>
+          Change History
+        </div>
+        <button class="sidebar-close" onclick="closeSidebar()" title="Close">✕</button>
+      </div>
+
+      <div class="sidebar-filters">
+        <button class="filter-chip active" data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
+        <button class="filter-chip"        data-filter="confidence" onclick="setFilter('confidence',this)">Confidence</button>
+      </div>
+
+      <div class="sidebar-body" id="sidebar-body">
+        <div class="sidebar-loading">Loading change history…</div>
+      </div>
     </div>
   </div>
 </div>
@@ -371,26 +848,43 @@
 </div>
 
 <script>
-// ââ Config ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
-const BOARD_ID  = 18364310005;
-const GROUP_ID  = 'topics';
-const FCS_COL   = 'date_mm06txhj';
-const CONF_COL  = 'numeric_mkz3rvnr';
-const AUTO_REFRESH_MS = 5 * 60 * 1000;   // 5 minutes
-const MONTHS    = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+// ── Config ──────────────────────────────────────────────────────────────────
+const BOARD_ID        = 18364310005;
+const GROUP_ID        = 'topics';
+const FCS_COL         = 'date_mm06txhj';
+const CONF_COL        = 'numeric_mkz3rvnr';
+const HISTORY_FILE    = './history.json';
+const AUTO_REFRESH_MS = 5 * 60 * 1000;  // 5 minutes
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-// ââ Confidence colours ââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// Columns tracked for diffing (history.json key → human title)
+const TRACKED_COLS = {
+  'date_mm06txhj':    'FCS Date',
+  'numeric_mkz3rvnr': 'Confidence',
+  'status':           'Priority',
+  'color_mkxf9nhp':   'Action',
+  'boolean_mm06c6vy': 'Pre-Tool Review',
+  'boolean_mm06jadd': 'Post-Tool Review',
+  'name':             'Name'
+};
+
+// ── Confidence colours ───────────────────────────────────────────────────────
 function confColor(pct) {
   if (pct >= 90) return '#00c875';
   if (pct >= 75) return '#579bfc';
   if (pct >= 60) return '#fdab3d';
   return '#c4c4c4';
 }
+function confClass(pct) {
+  if (pct >= 90) return 'conf-high';
+  if (pct >= 75) return 'conf-mid';
+  if (pct >= 60) return 'conf-low';
+  return 'conf-vlow';
+}
 
-// ââ Saved token (paste your monday.com API token between the quotes below) ââââ
+// ── Saved token ──────────────────────────────────────────────────────────────
 const SAVED_TOKEN = '';
 
-// ââ Token management ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
 function getToken()  { return SAVED_TOKEN || localStorage.getItem('monday_token'); }
 function saveToken() {
   const t = document.getElementById('token-input').value.trim();
@@ -405,15 +899,21 @@ function clearToken() {
   document.getElementById('token-modal').classList.add('open');
 }
 
-// ââ API âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── API ──────────────────────────────────────────────────────────────────────
+// Fetch ALL items from ALL groups with ALL tracked columns.
+// Returns full item list; chart rendering filters from this.
 async function fetchItems(token) {
+  const ALL_COLS = [FCS_COL, CONF_COL, 'status', 'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd'];
+  const colIds   = ALL_COLS.map(c => `"${c}"`).join(', ');
+
   const query = `{
     boards(ids: [${BOARD_ID}]) {
-      groups(ids: ["${GROUP_ID}"]) {
+      groups {
+        id title
         items_page(limit: 100) {
           items {
             id name
-            column_values(ids: ["${FCS_COL}", "${CONF_COL}"]) { id text }
+            column_values(ids: [${colIds}]) { id text }
           }
         }
       }
@@ -434,22 +934,28 @@ async function fetchItems(token) {
   const json = await res.json();
   if (json.errors) throw new Error(json.errors.map(e => e.message).join('; '));
 
-  return json.data.boards[0].groups[0].items_page.items
-    .map(item => {
-      const fcsText  = item.column_values.find(c => c.id === FCS_COL)?.text  || '';
-      const confText = item.column_values.find(c => c.id === CONF_COL)?.text || '';
-      return {
-        id:         item.id,
-        name:       item.name,
-        fcsDate:    fcsText  || null,
-        confidence: confText ? parseFloat(confText) : null
-      };
-    })
-    .filter(i => i.fcsDate)
-    .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+  const allItems = [];
+  for (const group of json.data.boards[0].groups) {
+    for (const item of group.items_page.items) {
+      const colMap = {};
+      for (const cv of item.column_values) {
+        colMap[cv.id] = cv.text || null;
+      }
+      allItems.push({
+        id:          item.id,
+        name:        item.name,
+        group_id:    group.id,
+        group_title: group.title,
+        fcsDate:     colMap[FCS_COL]  || null,
+        confidence:  colMap[CONF_COL] ? parseFloat(colMap[CONF_COL]) : null,
+        colMap:      colMap
+      });
+    }
+  }
+  return allItems;
 }
 
-// ââ Date helpers ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Date helpers ─────────────────────────────────────────────────────────────
 function parseDate(s) {
   const [y, m, d] = s.split('-').map(Number);
   return new Date(y, m - 1, d);
@@ -460,8 +966,25 @@ function prettyDate(s) {
 function monthStart(d, offset = 0) {
   return new Date(d.getFullYear(), d.getMonth() + offset, 1);
 }
+function isoNow() {
+  return new Date().toISOString();
+}
+function formatChangeTime(isoStr) {
+  const d = new Date(isoStr);
+  const now = new Date();
+  const diffMs = now - d;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHrs  = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
 
-// ââ Render ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+  if (diffMins < 1)   return 'Just now';
+  if (diffMins < 60)  return `${diffMins}m ago`;
+  if (diffHrs  < 24)  return `${diffHrs}h ago`;
+  if (diffDays < 7)   return `${diffDays}d ago`;
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
+}
+
+// ── Render chart ─────────────────────────────────────────────────────────────
 function renderChart(items) {
   const area = document.getElementById('chart-area');
 
@@ -473,19 +996,16 @@ function renderChart(items) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const allDates   = items.map(i => parseDate(i.fcsDate));
-  const minDate    = new Date(Math.min(...allDates));
-  const maxDate    = new Date(Math.max(...allDates));
+  const allDates = items.map(i => parseDate(i.fcsDate));
+  const maxDate  = new Date(Math.max(...allDates));
 
-  let rangeStart = monthStart(minDate, -1);
-  let rangeEnd   = monthStart(maxDate,  2);
-  if (today < rangeStart) rangeStart = monthStart(today, -1);
-  if (today > rangeEnd)   rangeEnd   = monthStart(today,  2);
+  // Always start 1 month before today; end 2 months after latest FCS
+  const rangeStart = monthStart(today, -1);
+  const rangeEnd   = monthStart(maxDate, 2);
 
   const totalMs = rangeEnd - rangeStart;
   const pct = d => ((d - rangeStart) / totalMs) * 100;
 
-  // Month list
   const monthList = [];
   let cur = new Date(rangeStart);
   while (cur < rangeEnd) {
@@ -493,18 +1013,18 @@ function renderChart(items) {
     cur = monthStart(cur, 1);
   }
 
-  // Label column width
+  const isMobile = window.innerWidth < 680;
   const cvs = document.createElement('canvas');
   const ctx = cvs.getContext('2d');
   ctx.font = '500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-  const labelW = Math.min(220, Math.max(120,
+  const maxLabel = isMobile ? 130 : 220;
+  const minLabel = isMobile ? 90  : 120;
+  const labelW = Math.min(maxLabel, Math.max(minLabel,
     Math.max(...items.map(i => ctx.measureText(i.name).width)) + 20
   ));
 
-  const todayPct  = pct(today);
-  const showToday = todayPct >= 0 && todayPct <= 100;
+  const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
 
-  // Month ticks HTML
   const monthTicksHtml = monthList.map(m => {
     const p     = pct(m);
     const label = (m.getMonth() === 0 || m === monthList[0])
@@ -513,20 +1033,10 @@ function renderChart(items) {
     return `<div class="month-tick" style="left:${p}%">${label}</div>`;
   }).join('');
 
-  const todayTickHtml = showToday
-    ? `<div class="today-tick" style="left:${todayPct}%">Today</div>`
-    : '';
-
-  // Grid lines per row
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
 
-  const todayLineHtml = showToday
-    ? `<div class="today-line" style="left:${todayPct}%"></div>`
-    : '';
-
-  // Item rows
   const rowsHtml = items.map(item => {
     const dp     = pct(parseDate(item.fcsDate));
     const color  = confColor(item.confidence ?? 0);
@@ -538,7 +1048,6 @@ function renderChart(items) {
         <div class="item-track">
           <div class="track-line"></div>
           ${gridHtml}
-          ${todayLineHtml}
           <div class="dot-wrapper"
             style="left:${dp}%"
             data-name="${esc(item.name)}"
@@ -547,7 +1056,8 @@ function renderChart(items) {
             data-color="${color}"
             onmouseenter="showTip(event,this)"
             onmouseleave="hideTip()"
-            onmousemove="moveTip(event)">
+            onmousemove="moveTip(event)"
+            onclick="tapTip(event,this)">
             <div class="conf-badge" style="background:${color}">${badge}</div>
             <div class="dot" style="background:${color}"></div>
           </div>
@@ -555,28 +1065,30 @@ function renderChart(items) {
       </div>`;
   }).join('');
 
-  // Legend
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>90-100%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#579bfc"></div>75-89%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#fdab3d"></div>60-74%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#c4c4c4"></div>&lt;60%</div>
-      ${showToday ? '<div class="legend-item"><div style="width:14px;height:2px;background:#e2445c;border-radius:1px"></div>Today</div>' : ''}
     </div>`;
 
   area.innerHTML = `
     <div class="chart">
-      <div class="chart-header">
-        <div class="label-spacer" style="width:${labelW}px"></div>
-        <div class="months-bar">${monthTicksHtml}${todayTickHtml}</div>
+      <div class="chart-scroll">
+        <div class="chart-inner" style="min-width:${minChartWidth}px; padding: 0 14px;">
+          <div class="chart-header">
+            <div class="label-spacer" style="width:${labelW}px"></div>
+            <div class="months-bar">${monthTicksHtml}</div>
+          </div>
+          <div class="item-rows">${rowsHtml}</div>
+        </div>
       </div>
-      <div class="item-rows">${rowsHtml}</div>
       ${legendHtml}
     </div>`;
 }
 
-// ââ Tooltip âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Tooltip ──────────────────────────────────────────────────────────────────
 function showTip(e, el) {
   document.getElementById('tt-name').textContent      = el.dataset.name;
   document.getElementById('tt-date').textContent      = el.dataset.date;
@@ -591,13 +1103,670 @@ function moveTip(e) {
   tt.style.top  = Math.max(e.clientY - 10, 8) + 'px';
 }
 function hideTip() {
-  document.getElementById('tooltip').classList.remove('show');
+  const tt = document.getElementById('tooltip');
+  tt.classList.remove('show');
+  tt.classList.remove('mobile-show');
 }
 
-// ââ Load data + auto-refresh ââââââââââââââââââââââââââââââââââââââââââââââââââ
-let refreshTimer    = null;
-let countdownTimer  = null;
-let nextRefreshAt   = null;
+let tapTimer = null;
+function tapTip(e, el) {
+  if (window.innerWidth >= 680) return;
+  e.stopPropagation();
+  clearTimeout(tapTimer);
+  document.getElementById('tt-name').textContent      = el.dataset.name;
+  document.getElementById('tt-date').textContent      = el.dataset.date;
+  document.getElementById('tt-conf-text').textContent = 'Confidence: ' + el.dataset.conf;
+  document.getElementById('tt-swatch').style.background = el.dataset.color;
+  const tt = document.getElementById('tooltip');
+  tt.classList.add('show', 'mobile-show');
+  tapTimer = setTimeout(hideTip, 3500);
+}
+document.addEventListener('click', () => {
+  if (window.innerWidth < 680) hideTip();
+});
+
+// ── KPI Data ─────────────────────────────────────────────────────────────────
+// Entry dates into Active Developments (sourced from Monday activity log research)
+const ACTIVE_ENTRY_DATES = {
+  '18364310204': '2025-11-06', // Bread Steel Duo
+  '18364614638': '2025-12-11', // 1 Box Sheeter Package
+  '18364450778': '2025-11-06', // Bread Knife
+  '18364459284': '2025-11-06', // Sourdough Home Plus
+  '18364451333': '2025-11-06', // Scoring Knife
+  '10782814193': '2026-03-17', // New Banneton Sizes
+  '18366766347': '2026-03-26', // Bread Pan
+  '18364460003': '2025-11-06', // Proofing Mat
+  '18364460937': '2025-11-06', // Glass Proofing Container
+};
+
+// Entry dates for Completed Developments (created_at from monday.com)
+const COMPLETED_ENTRY_DATES = {
+  '18364310204': '2025-11-06', // Bread Steel Duo
+  '18364327449': '2025-11-06', // Essentials Kit
+  '18364326517': '2025-11-06', // Starter Spatula
+  '18364310180': '2025-11-06', // Proofer Pro
+  '18364310166': '2025-11-06', // Sheeter
+  // Bannetons excluded — FCS date predates board creation (retroactive entry)
+};
+
+// KPI 1: Historical forecast data for completed products
+// forecast3mo = FCS date prediction closest to 3 months before actual launch
+// (Sheeter & Bannetons excluded — FCS was set retroactively, no predictive data)
+const FORECAST_HISTORY = [
+  { name: 'Proofer Pro',     launchDate: '2026-04-14', forecast3mo: '2026-04-19' },
+  { name: 'Essentials Kit',  launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
+  { name: 'Starter Spatula', launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
+];
+
+let liveItemsCache = [];
+
+function shortDate(s) {
+  if (!s) return '—';
+  return parseDate(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+}
+
+// ── View switching ────────────────────────────────────────────────────────────
+let currentView = 'roadmap';
+function switchView(view) {
+  currentView = view;
+  document.getElementById('view-roadmap').style.display  = view === 'roadmap'  ? '' : 'none';
+  document.getElementById('view-timeline').style.display = view === 'timeline' ? '' : 'none';
+  document.getElementById('view-kpis').style.display     = view === 'kpis'     ? '' : 'none';
+  document.getElementById('tab-roadmap').classList.toggle('active',  view === 'roadmap');
+  document.getElementById('tab-timeline').classList.toggle('active', view === 'timeline');
+  document.getElementById('tab-kpis').classList.toggle('active',     view === 'kpis');
+  if (view === 'kpis') {
+    if (liveItemsCache.length) renderKPIs(liveItemsCache);
+    else document.getElementById('kpi-area').innerHTML =
+      '<div class="state-msg">Connect to monday.com to load KPIs.</div>';
+  }
+  if (view === 'timeline') {
+    if (liveItemsCache.length) renderTimeline(liveItemsCache);
+    else document.getElementById('timeline-area').innerHTML =
+      '<div class="state-msg">Connect to monday.com to load timeline.</div>';
+  }
+}
+
+// ── Timeline render ───────────────────────────────────────────────────────────
+function renderTimeline(allItems) {
+  const area = document.getElementById('timeline-area');
+  if (!area || currentView !== 'timeline') return;
+
+  // Build rows: Active first, then Completed
+  const activeRows = allItems
+    .filter(i => i.group_id === GROUP_ID && i.fcsDate && ACTIVE_ENTRY_DATES[i.id])
+    .map(i => ({
+      name:   i.name,
+      entry:  ACTIVE_ENTRY_DATES[i.id],
+      fcs:    i.fcsDate,
+      months: (parseDate(i.fcsDate) - parseDate(ACTIVE_ENTRY_DATES[i.id])) / (1000*60*60*24*30.44),
+      type:   'active'
+    }))
+    .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
+
+  const completedRows = allItems
+    .filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate && COMPLETED_ENTRY_DATES[i.id])
+    .map(i => ({
+      name:   i.name,
+      entry:  COMPLETED_ENTRY_DATES[i.id],
+      fcs:    i.fcsDate,
+      months: (parseDate(i.fcsDate) - parseDate(COMPLETED_ENTRY_DATES[i.id])) / (1000*60*60*24*30.44),
+      type:   'completed'
+    }))
+    .filter(r => r.months > 0)
+    .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
+
+  const allRows = [...activeRows, ...completedRows];
+  if (!allRows.length) {
+    area.innerHTML = '<div class="state-msg">No timeline data available.</div>';
+    return;
+  }
+
+  // ── Date range: earliest entry → latest FCS ─────────────────────────────
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const fcsDates = allRows.map(r => parseDate(r.fcs));
+  const maxDate  = new Date(Math.max(...fcsDates));
+
+  // Always start 1 month before today; end 2 months after latest FCS
+  const rangeStart = monthStart(today, -1);
+  const rangeEnd   = monthStart(maxDate, 2);
+
+  const totalMs = rangeEnd - rangeStart;
+  const pct = d => ((d - rangeStart) / totalMs) * 100;
+
+  // Month ticks
+  const monthList = [];
+  let cur = new Date(rangeStart);
+  while (cur < rangeEnd) { monthList.push(new Date(cur)); cur = monthStart(cur, 1); }
+
+  // Label column width
+  const isMobile = window.innerWidth < 680;
+  const cvs = document.createElement('canvas');
+  const ctx2 = cvs.getContext('2d');
+  ctx2.font = '500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  const labelW = Math.min(isMobile ? 130 : 220, Math.max(isMobile ? 90 : 120,
+    Math.max(...allRows.map(r => ctx2.measureText(r.name).width)) + 20
+  ));
+
+  const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
+
+  const monthTicksHtml = monthList.map(m => {
+    const p     = pct(m);
+    const label = (m.getMonth() === 0 || m === monthList[0])
+      ? `${MONTHS[m.getMonth()]} ${m.getFullYear()}` : MONTHS[m.getMonth()];
+    return `<div class="month-tick" style="left:${p}%">${label}</div>`;
+  }).join('');
+
+  const gridHtml = monthList.map(m =>
+    `<div class="grid-line" style="left:${pct(m)}%"></div>`
+  ).join('');
+
+  // ── Section header row ─────────────────────────────────────────────────
+  function sectionRowHtml(label, count) {
+    return `
+      <div class="tl-section-row">
+        <div class="tl-section-label" style="width:${labelW}px">${esc(label)} <span style="font-weight:400;">(${count})</span></div>
+        <div class="item-track" style="position:relative;flex:1;height:100%;">
+          ${gridHtml}
+        </div>
+      </div>`;
+  }
+
+  // ── Bar row ────────────────────────────────────────────────────────────
+  function barRowHtml(row) {
+    const rawStartPct = pct(parseDate(row.entry));
+    const endPct      = pct(parseDate(row.fcs));
+    // Clamp bar left edge to chart start (entry may pre-date rangeStart)
+    const startPct    = Math.max(0, rawStartPct);
+    const widthPct    = Math.max(endPct - startPct, 0.4);
+    const color       = row.type === 'completed' ? '#00c875' : '#0073ea';
+    const durLabel    = row.months.toFixed(1) + ' mo';
+    // Put label inside if bar is wide enough, otherwise outside to the right
+    const labelInside = widthPct > 9;
+    const labelHtml   = labelInside
+      ? `<span class="tl-dur-label" style="right:7px;color:#fff;">${esc(durLabel)}</span>`
+      : `<span class="tl-dur-label" style="left:calc(100% + 6px);color:${color};">${esc(durLabel)}</span>`;
+
+    return `
+      <div class="item-row">
+        <div class="item-label" style="width:${labelW}px" title="${esc(row.name)}">${esc(row.name)}</div>
+        <div class="item-track">
+          <div class="track-line"></div>
+          ${gridHtml}
+          <div class="tl-bar-wrap" style="left:${startPct}%;width:${widthPct}%;">
+            <div class="tl-bar-fill" style="background:${color};opacity:0.88;"></div>
+            ${labelHtml}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  const rowsHtml = [
+    sectionRowHtml('Active Developments', activeRows.length),
+    ...activeRows.map(barRowHtml),
+    ...(completedRows.length ? [
+      sectionRowHtml('Completed', completedRows.length),
+      ...completedRows.map(barRowHtml)
+    ] : [])
+  ].join('');
+
+  const legendHtml = `
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#0073ea"></div>Active Development</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>Completed</div>
+    </div>`;
+
+  area.innerHTML = `
+    <div class="chart">
+      <div class="chart-scroll">
+        <div class="chart-inner" style="min-width:${minChartWidth}px;padding:0 14px;">
+          <div class="chart-header">
+            <div class="label-spacer" style="width:${labelW}px"></div>
+            <div class="months-bar">${monthTicksHtml}</div>
+          </div>
+          <div class="item-rows">${rowsHtml}</div>
+        </div>
+      </div>
+      ${legendHtml}
+    </div>`;
+}
+
+// ── KPI render ────────────────────────────────────────────────────────────────
+function renderKPIs(allItems) {
+  liveItemsCache = allItems;
+  const area = document.getElementById('kpi-area');
+  if (!area || currentView !== 'kpis') return;
+
+  // ── KPI 2: Time to Market (active items only) ─────────────────────────────
+  const activeItems = allItems.filter(i => i.group_id === GROUP_ID && i.fcsDate);
+  const cycleRows = activeItems
+    .filter(i => ACTIVE_ENTRY_DATES[i.id])
+    .map(i => {
+      const entry  = parseDate(ACTIVE_ENTRY_DATES[i.id]);
+      const fcs    = parseDate(i.fcsDate);
+      const months = (fcs - entry) / (1000 * 60 * 60 * 24 * 30.44);
+      return { name: i.name, entry: ACTIVE_ENTRY_DATES[i.id], fcs: i.fcsDate, months };
+    })
+    .sort((a, b) => a.months - b.months);
+
+  const sorted = [...cycleRows.map(r => r.months)].sort((a, b) => a - b);
+  const medianMonths = sorted.length
+    ? (sorted.length % 2 === 0
+        ? (sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2
+        : sorted[Math.floor(sorted.length/2)])
+    : null;
+
+  // ── Completed items: actual time to market ────────────────────────────────
+  const completedItems = allItems.filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate);
+  const completedRows = completedItems
+    .filter(i => COMPLETED_ENTRY_DATES[i.id])
+    .map(i => {
+      const entry  = parseDate(COMPLETED_ENTRY_DATES[i.id]);
+      const fcs    = parseDate(i.fcsDate);
+      const months = (fcs - entry) / (1000 * 60 * 60 * 24 * 30.44);
+      return { name: i.name, fcs: i.fcsDate, months };
+    })
+    .filter(r => r.months > 0)
+    .sort((a, b) => a.months - b.months);
+
+  const completedAvg = completedRows.length
+    ? completedRows.reduce((s, r) => s + r.months, 0) / completedRows.length
+    : null;
+
+  // ── KPI 1: Forecast Accuracy (completed products) ─────────────────────────
+  const errors3mo = FORECAST_HISTORY
+    .filter(f => f.forecast3mo)
+    .map(f => (parseDate(f.forecast3mo) - parseDate(f.launchDate)) / 86400000);
+
+  const avgAbsWeeks3mo = errors3mo.length
+    ? (errors3mo.reduce((s, e) => s + Math.abs(e), 0) / errors3mo.length / 7).toFixed(1)
+    : null;
+  const n3mo = errors3mo.length;
+
+  area.innerHTML = `
+    <div class="kpi-grid">
+
+      <!-- KPI 1: Forecast Accuracy -->
+      <div class="card">
+        <div class="kpi-card-title">New Product Forecast Accuracy</div>
+        <div class="kpi-card-subtitle">
+          Average tolerance (±weeks) between predicted and actual FCS date,<br>
+          measured at key milestones before launch
+        </div>
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th style="width:44%">Milestone</th>
+              <th style="width:28%">Tolerance</th>
+              <th>Sample</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="kpi-milestone-label">12 months out</td>
+              <td><span class="kpi-tolerance question">?</span></td>
+              <td class="kpi-sample-size">No data yet</td>
+            </tr>
+            <tr>
+              <td class="kpi-milestone-label">6 months out</td>
+              <td><span class="kpi-tolerance question">?</span></td>
+              <td class="kpi-sample-size">No data yet</td>
+            </tr>
+            <tr>
+              <td class="kpi-milestone-label">3 months out</td>
+              <td><span class="kpi-tolerance">${avgAbsWeeks3mo ? `±${avgAbsWeeks3mo} wks` : '?'}</span></td>
+              <td class="kpi-sample-size">${n3mo > 0 ? `${n3mo} product${n3mo > 1 ? 's' : ''}` : '—'}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="kpi-note">
+          FCS date tracking began Feb 2026. The 12 and 6 month checkpoints will populate as
+          more products are in-flight for longer. Data updates automatically as products ship.
+        </div>
+      </div>
+
+      <!-- KPI 2: Time to Market -->
+      <div class="card">
+        <div class="kpi-card-title">Estimated Time to Market</div>
+        <div class="kpi-card-subtitle">
+          From entry into Active Developments to FCS date — active products, current projections
+        </div>
+        <div class="kpi-big-number">${medianMonths ? medianMonths.toFixed(1) : '—'}<span class="kpi-big-unit">mo</span></div>
+        <div class="kpi-big-label">median across ${cycleRows.length} active product${cycleRows.length !== 1 ? 's' : ''}</div>
+        <div class="kpi-divider"></div>
+
+        <!-- Active Developments section -->
+        <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Active Developments</div>
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>FCS</th>
+              <th style="text-align:right">Months</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${cycleRows.map(r => `
+              <tr>
+                <td>${esc(r.name)}</td>
+                <td class="kpi-date-val">${shortDate(r.fcs)}</td>
+                <td class="kpi-months-val" style="text-align:right">${r.months.toFixed(1)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>
+
+        ${completedRows.length ? `
+        <div class="kpi-divider" style="margin-top:18px;"></div>
+
+        <!-- Completed Developments section -->
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
+          <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;">Completed Developments</div>
+          ${completedAvg ? `<div style="font-size:11px;color:#9699a6;">avg ${completedAvg.toFixed(1)} mo</div>` : ''}
+        </div>
+        <table class="kpi-table">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>FCS</th>
+              <th style="text-align:right">Months</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${completedRows.map(r => `
+              <tr>
+                <td style="color:#00854d;font-weight:500;">${esc(r.name)}</td>
+                <td class="kpi-date-val">${shortDate(r.fcs)}</td>
+                <td style="text-align:right;font-weight:700;color:#00854d;">${r.months.toFixed(1)}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>` : ''}
+
+        <div class="kpi-note">
+          Cycle times recalculate automatically when FCS dates change on Monday.com.
+          Entry dates reflect when each product first entered Active Developments.
+        </div>
+      </div>
+
+    </div>`;
+}
+
+// ── History & diffing ────────────────────────────────────────────────────────
+let historyData  = null;   // parsed history.json
+let activeFilter = 'date';  // 'date' | 'confidence'
+
+// Load history.json from the same origin
+async function loadHistory() {
+  try {
+    const res = await fetch(HISTORY_FILE + '?_=' + Date.now());
+    if (!res.ok) throw new Error('history.json not found');
+    historyData = await res.json();
+    renderSidebar();
+  } catch (e) {
+    document.getElementById('sidebar-body').innerHTML =
+      `<div class="sidebar-empty">Could not load history.json.<br><small>${esc(e.message)}</small></div>`;
+  }
+}
+
+// ── Snapshot helpers (localStorage) ─────────────────────────────────────────
+// We store the most-recent live state here so every diff is incremental.
+// This means A→B then B→C are two separate records, never collapsed into A→C.
+const LS_SNAPSHOT_KEY = 'fcs_snapshot_v2';
+
+function getStoredSnapshot() {
+  try { return JSON.parse(localStorage.getItem(LS_SNAPSHOT_KEY) || 'null'); }
+  catch(e) { return null; }
+}
+
+function storeSnapshot(allItems) {
+  const snap = {};
+  allItems.forEach(item => {
+    snap[item.id] = Object.assign({ name: item.name, group_id: item.group_id }, item.colMap);
+  });
+  try { localStorage.setItem(LS_SNAPSHOT_KEY, JSON.stringify(snap)); } catch(e) {}
+}
+
+// Diff ALL live items (all groups, all fields) against the last stored snapshot.
+// After diffing, the current state becomes the new snapshot.
+function diffAndRecord(allItems) {
+  if (!historyData) return;
+
+  // Prefer localStorage snapshot (always up-to-date); fall back to history.json baseline
+  let prevState = getStoredSnapshot();
+  if (!prevState) {
+    const snapshots = historyData.snapshots;
+    if (snapshots && snapshots.length) {
+      prevState = snapshots[snapshots.length - 1].items || {};
+    }
+  }
+
+  const now       = isoNow();
+  const changelog = historyData.changelog;
+  const DIFF_FIELDS = [
+    'date_mm06txhj', 'numeric_mkz3rvnr', 'status',
+    'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd', 'name'
+  ];
+
+  allItems.forEach(item => {
+    const prev       = prevState ? prevState[item.id] : null;
+    const groupTitle = GROUP_NAMES[item.group_id] || item.group_title || item.group_id;
+
+    // ── New item: log an "added" event ──────────────────────────────────────
+    if (!prev) {
+      const isDupe = changelog.some(c => c.itemId === item.id && c.field === '_added');
+      if (!isDupe) {
+        changelog.push({
+          timestamp:  now,
+          itemId:     item.id,
+          itemName:   item.name,
+          groupId:    item.group_id,
+          groupTitle: groupTitle,
+          field:      '_added',
+          fieldTitle: 'Added to board',
+          from:       null,
+          to:         groupTitle
+        });
+      }
+      return; // will be in snapshot for future diffs
+    }
+
+    // ── Group move ───────────────────────────────────────────────────────────
+    if (prev.group_id && prev.group_id !== item.group_id) {
+      const fromGroup = GROUP_NAMES[prev.group_id] || prev.group_id;
+      const isDupe = changelog.some(c =>
+        c.itemId === item.id && c.field === '_group' &&
+        c.from === fromGroup && c.to === groupTitle
+      );
+      if (!isDupe) {
+        changelog.push({
+          timestamp:  now,
+          itemId:     item.id,
+          itemName:   item.name,
+          groupId:    item.group_id,
+          groupTitle: groupTitle,
+          field:      '_group',
+          fieldTitle: 'Moved to group',
+          from:       fromGroup,
+          to:         groupTitle
+        });
+      }
+    }
+
+    // ── Field changes ────────────────────────────────────────────────────────
+    DIFF_FIELDS.forEach(field => {
+      const liveVal = (field === 'name') ? item.name : item.colMap[field];
+      const snapVal = prev[field];
+
+      const normSnap = (snapVal == null || snapVal === '') ? null : String(snapVal);
+      const normLive = (liveVal == null || liveVal === '') ? null : String(liveVal);
+
+      if (normSnap !== normLive) {
+        // Dedupe: exact same transition already logged
+        const isDupe = changelog.some(c =>
+          c.itemId === item.id &&
+          c.field  === field   &&
+          c.from   === normSnap &&
+          c.to     === normLive
+        );
+        if (!isDupe) {
+          changelog.push({
+            timestamp:  now,
+            itemId:     item.id,
+            itemName:   item.name,
+            groupId:    item.group_id,
+            groupTitle: groupTitle,
+            field:      field,
+            fieldTitle: TRACKED_COLS[field] || field,
+            from:       normSnap,
+            to:         normLive
+          });
+        }
+      }
+    });
+  });
+
+  // ⚠️ Update snapshot AFTER diffing so the next refresh diffs against NOW
+  storeSnapshot(allItems);
+
+  persistChangelogLocally(changelog);
+  mergeLocalChangelog();
+  renderSidebar();
+}
+
+const LS_CHANGELOG_KEY = 'fcs_changelog_v1';
+
+function persistChangelogLocally(changelog) {
+  try {
+    localStorage.setItem(LS_CHANGELOG_KEY, JSON.stringify(changelog));
+  } catch(e) { /* quota exceeded – ignore */ }
+}
+
+function mergeLocalChangelog() {
+  if (!historyData) return;
+  try {
+    const local = JSON.parse(localStorage.getItem(LS_CHANGELOG_KEY) || '[]');
+    const fileIds = new Set(historyData.changelog.map(c => c.timestamp + c.itemId + c.field));
+    local.forEach(entry => {
+      const key = entry.timestamp + entry.itemId + entry.field;
+      if (!fileIds.has(key)) {
+        historyData.changelog.push(entry);
+        fileIds.add(key);
+      }
+    });
+  } catch(e) { /* ignore */ }
+}
+
+const GROUP_NAMES = {
+  'group_title':     'Concept Development',
+  'group_mkxfjfcm':  'Product Upgrades / Cost Reductions',
+  'topics':          'Active Developments',
+  'group_mkxncbsv':  'Completed Developments',
+  'group_mkxnn81v':  'Ideas'
+};
+
+// ── Sidebar render ───────────────────────────────────────────────────────────
+function setFilter(filter, el) {
+  activeFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderSidebar();
+}
+
+function renderSidebar() {
+  if (!historyData) return;
+
+  mergeLocalChangelog();
+
+  const body = document.getElementById('sidebar-body');
+
+  // Show all changes across all groups
+  let entries = historyData.changelog.slice();
+
+  if (activeFilter === 'date') {
+    entries = entries.filter(c => c.field === 'date_mm06txhj');
+  } else if (activeFilter === 'confidence') {
+    entries = entries.filter(c => c.field === 'numeric_mkz3rvnr');
+  }
+
+  // Sort newest first
+  entries = entries.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+
+  if (!entries.length) {
+    body.innerHTML = `
+      <div class="sidebar-empty">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+          <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        No changes recorded yet for<br>FCS Date or Confidence.<br>
+        <small style="color:#c5c7d4;margin-top:6px;display:block">Changes appear here automatically<br>when data is refreshed.</small>
+      </div>`;
+    return;
+  }
+
+  body.innerHTML = entries.map(c => {
+    let fromLabel, toLabel, toClass = '';
+    if (c.field === '_added') {
+      fromLabel = null;
+      toLabel   = c.to || '—';
+    } else if (c.field === '_group') {
+      fromLabel = c.from || '—';
+      toLabel   = c.to   || '—';
+    } else if (c.field === 'date_mm06txhj') {
+      fromLabel = c.from ? prettyDate(c.from) : '—';
+      toLabel   = c.to   ? prettyDate(c.to)   : '—';
+      toClass   = 'date-change';
+    } else if (c.field === 'numeric_mkz3rvnr') {
+      fromLabel = c.from != null ? c.from + '%' : '—';
+      toLabel   = c.to   != null ? c.to   + '%' : '—';
+      if (c.to) toClass = confClass(parseFloat(c.to));
+    } else if (c.field === 'boolean_mm06c6vy' || c.field === 'boolean_mm06jadd') {
+      fromLabel = c.from === 'true' ? '✓' : c.from === 'false' ? '✗' : c.from || '—';
+      toLabel   = c.to   === 'true' ? '✓' : c.to   === 'false' ? '✗' : c.to   || '—';
+    } else {
+      fromLabel = c.from || '—';
+      toLabel   = c.to   || '—';
+    }
+
+    return `
+      <div class="change-entry">
+        <div class="change-entry-header">
+          <div class="change-item-name" title="${esc(c.itemName)}">${esc(c.itemName)}</div>
+          <div class="change-time">${formatChangeTime(c.timestamp)}</div>
+        </div>
+        <div class="change-detail">
+          <span class="change-field">${esc(c.fieldTitle)}</span>
+          ${fromLabel != null ? `<span class="change-from">${esc(fromLabel)}</span><span class="change-arrow">→</span>` : ''}
+          <span class="change-to ${toClass}">${esc(toLabel)}</span>
+        </div>
+        <div class="change-group">${esc(c.groupTitle)}</div>
+      </div>`;
+  }).join('');
+}
+
+// ── Sidebar toggle ───────────────────────────────────────────────────────────
+function toggleSidebar() {
+  const sidebar = document.getElementById('history-sidebar');
+  const btn     = document.getElementById('history-btn');
+  if (sidebar.classList.contains('open')) {
+    sidebar.classList.remove('open');
+    btn.classList.remove('active');
+  } else {
+    sidebar.classList.add('open');
+    btn.classList.add('active');
+    renderSidebar();
+  }
+}
+function closeSidebar() {
+  document.getElementById('history-sidebar').classList.remove('open');
+  document.getElementById('history-btn').classList.remove('active');
+}
+
+// ── Load data + auto-refresh ─────────────────────────────────────────────────
+let refreshTimer   = null;
+let countdownTimer = null;
+let nextRefreshAt  = null;
 
 async function loadData(manual = false) {
   const token = getToken();
@@ -612,14 +1781,28 @@ async function loadData(manual = false) {
   document.getElementById('next-refresh').textContent = '';
 
   try {
-    const items = await fetchItems(token);
-    renderChart(items);
+    const allItems  = await fetchItems(token);
+
+    // Chart only shows Active Developments items that have an FCS date
+    const chartItems = allItems
+      .filter(i => i.group_id === GROUP_ID && i.fcsDate)
+      .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+    renderChart(chartItems);
+
+    // Update shared cache; render whichever secondary views are active
+    liveItemsCache = allItems;
+    renderKPIs(allItems);
+    renderTimeline(allItems);
+
+    // Diff the full board (all groups, all fields) for the change history
+    if (historyData) {
+      diffAndRecord(allItems);
+    }
 
     const now = new Date();
     document.getElementById('last-updated').textContent =
       'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-    // Schedule next auto-refresh
     nextRefreshAt = Date.now() + AUTO_REFRESH_MS;
     refreshTimer  = setTimeout(() => loadData(), AUTO_REFRESH_MS);
 
@@ -644,7 +1827,7 @@ async function loadData(manual = false) {
   }
 }
 
-// ââ Utils âââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Utils ────────────────────────────────────────────────────────────────────
 function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -653,10 +1836,13 @@ function esc(s) {
     .replace(/"/g, '&quot;');
 }
 
-// ââ Init ââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// ── Init ─────────────────────────────────────────────────────────────────────
 document.getElementById('token-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') saveToken();
 });
+
+// Load history.json on startup (no token needed)
+loadHistory();
 
 if (getToken()) {
   loadData();
@@ -666,7 +1852,7 @@ if (getToken()) {
     '<div class="state-msg">Enter your monday.com API token to get started.</div>';
 }
 
-// ── Password gate ────────────────────────────────────────────────────────
+// ── Password gate ────────────────────────────────────────────────────────────
 const PAGE_PASSWORD = 'btfcs';
 function checkPassword() {
   const input = document.getElementById('pw-input');
