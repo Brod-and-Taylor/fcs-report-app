@@ -1122,7 +1122,7 @@ function switchView(view) {
 function renderTimeline(allItems) {
   const area = document.getElementById('timeline-area');
   if (!area || currentView !== 'timeline') return;
-  // Build rows: Active first, then Completed
+  // Active Developments only
   const activeRows = allItems
     .filter(i => i.group_id === GROUP_ID && i.fcsDate && ACTIVE_ENTRY_DATES[i.id])
     .map(i => ({
@@ -1130,83 +1130,51 @@ function renderTimeline(allItems) {
       entry:  ACTIVE_ENTRY_DATES[i.id],
       fcs:    i.fcsDate,
       months: (parseDate(i.fcsDate) - parseDate(ACTIVE_ENTRY_DATES[i.id])) / (1000*60*60*24*30.44),
-      type:   'active'
     }))
-    .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
-  const completedRows = allItems
-    .filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate && COMPLETED_ENTRY_DATES[i.id])
-    .map(i => ({
-      name:   i.name,
-      entry:  COMPLETED_ENTRY_DATES[i.id],
-      fcs:    i.fcsDate,
-      months: (parseDate(i.fcsDate) - parseDate(COMPLETED_ENTRY_DATES[i.id])) / (1000*60*60*24*30.44),
-      type:   'completed'
-    }))
-    .filter(r => r.months > 0)
-    .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
-  const allRows = [...activeRows, ...completedRows];
-  if (!allRows.length) {
+    .sort((a, b) => parseDate(a.entry) - parseDate(b.entry));
+  if (!activeRows.length) {
     area.innerHTML = '<div class="state-msg">No timeline data available.</div>';
     return;
   }
   // ── Date range ──────────────────────────────────────────────────────────
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const fcsDates   = allRows.map(r => parseDate(r.fcs));
-  const entryDates = allRows.map(r => parseDate(r.entry));
+  const fcsDates   = activeRows.map(r => parseDate(r.fcs));
+  const entryDates = activeRows.map(r => parseDate(r.entry));
   const maxDate    = new Date(Math.max(...fcsDates));
   const minEntry   = new Date(Math.min(...entryDates));
-  // Start 1 month before the earliest entry date so bars have breathing room
+  // Start 1 month before earliest entry; end 2 months after latest FCS
   const rangeStart = monthStart(minEntry, -1);
   const rangeEnd   = monthStart(maxDate, 2);
-  const totalMs = rangeEnd - rangeStart;
+  const totalMs    = rangeEnd - rangeStart;
   const pct = d => ((d - rangeStart) / totalMs) * 100;
-  // Month ticks
+  // Month list — only label every other month to avoid crowding on a full-page view
   const monthList = [];
   let cur = new Date(rangeStart);
   while (cur < rangeEnd) { monthList.push(new Date(cur)); cur = monthStart(cur, 1); }
-  // Label column width
-  const isMobile = window.innerWidth < 680;
-  const cvs = document.createElement('canvas');
-  const ctx2 = cvs.getContext('2d');
-  ctx2.font = '500 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
-  const labelW = Math.min(isMobile ? 130 : 220, Math.max(isMobile ? 90 : 120,
-    Math.max(...allRows.map(r => ctx2.measureText(r.name).width)) + 20
-  ));
-  const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
-  const monthTicksHtml = monthList.map(m => {
+  // Show every 2nd month tick if span > 18 months, every 3rd if > 27
+  const span = monthList.length;
+  const tickEvery = span > 27 ? 3 : span > 18 ? 2 : 1;
+  // Label column width (fixed, no canvas measurement needed for a clean fit)
+  const labelW = 175;
+  const monthTicksHtml = monthList.map((m, idx) => {
+    if (idx % tickEvery !== 0) return '';
     const p     = pct(m);
     const label = (m.getMonth() === 0 || m === monthList[0])
-      ? `${MONTHS[m.getMonth()]} ${m.getFullYear()}` : MONTHS[m.getMonth()];
+      ? `${MONTHS[m.getMonth()]} '${String(m.getFullYear()).slice(2)}` : MONTHS[m.getMonth()];
     return `<div class="month-tick" style="left:${p}%">${label}</div>`;
   }).join('');
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
-  // ── Section header row ─────────────────────────────────────────────────
-  function sectionRowHtml(label, count) {
-    return `
-      <div class="tl-section-row">
-        <div class="tl-section-label" style="width:${labelW}px">${esc(label)} <span style="font-weight:400;">(${count})</span></div>
-        <div class="item-track" style="position:relative;flex:1;height:100%;">
-          ${gridHtml}
-        </div>
-      </div>`;
-  }
   // ── Bar row ────────────────────────────────────────────────────────────
   function barRowHtml(row) {
-    const rawStartPct = pct(parseDate(row.entry));
-    const endPct      = pct(parseDate(row.fcs));
-    // Clamp bar left edge to chart start (entry may pre-date rangeStart)
-    const startPct    = Math.max(0, rawStartPct);
-    const widthPct    = Math.max(endPct - startPct, 0.4);
-    const color       = row.type === 'completed' ? '#00c875' : '#0073ea';
-    const durLabel    = row.months.toFixed(1) + ' mo';
-    // Put label inside if bar is wide enough, otherwise outside to the right
-    const labelInside = widthPct > 9;
-    const labelHtml   = labelInside
+    const startPct = pct(parseDate(row.entry));
+    const endPct   = pct(parseDate(row.fcs));
+    const widthPct = Math.max(endPct - startPct, 0.5);
+    const durLabel = row.months.toFixed(1) + ' mo';
+    const labelInside = widthPct > 8;
+    const labelHtml = labelInside
       ? `<span class="tl-dur-label" style="right:7px;color:#fff;">${esc(durLabel)}</span>`
-      : `<span class="tl-dur-label" style="left:calc(100% + 6px);color:${color};">${esc(durLabel)}</span>`;
+      : `<span class="tl-dur-label" style="left:calc(100% + 5px);color:#0073ea;">${esc(durLabel)}</span>`;
     return `
       <div class="item-row">
         <div class="item-label" style="width:${labelW}px" title="${esc(row.name)}">${esc(row.name)}</div>
@@ -1214,37 +1182,20 @@ function renderTimeline(allItems) {
           <div class="track-line"></div>
           ${gridHtml}
           <div class="tl-bar-wrap" style="left:${startPct}%;width:${widthPct}%;">
-            <div class="tl-bar-fill" style="background:${color};opacity:0.88;"></div>
+            <div class="tl-bar-fill" style="background:#0073ea;opacity:0.88;"></div>
             ${labelHtml}
           </div>
         </div>
       </div>`;
   }
-  const rowsHtml = [
-    sectionRowHtml('Active Developments', activeRows.length),
-    ...activeRows.map(barRowHtml),
-    ...(completedRows.length ? [
-      sectionRowHtml('Completed', completedRows.length),
-      ...completedRows.map(barRowHtml)
-    ] : [])
-  ].join('');
-  const legendHtml = `
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#0073ea"></div>Active Development</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>Completed</div>
-    </div>`;
+  const rowsHtml = activeRows.map(barRowHtml).join('');
   area.innerHTML = `
-    <div class="chart">
-      <div class="chart-scroll">
-        <div class="chart-inner" style="min-width:${minChartWidth}px;padding:0 14px;">
-          <div class="chart-header">
-            <div class="label-spacer" style="width:${labelW}px"></div>
-            <div class="months-bar">${monthTicksHtml}</div>
-          </div>
-          <div class="item-rows">${rowsHtml}</div>
-        </div>
+    <div class="chart" style="padding:0 14px;">
+      <div class="chart-header">
+        <div class="label-spacer" style="width:${labelW}px"></div>
+        <div class="months-bar">${monthTicksHtml}</div>
       </div>
-      ${legendHtml}
+      <div class="item-rows">${rowsHtml}</div>
     </div>`;
 }
 // ── KPI render ────────────────────────────────────────────────────────────────
