@@ -1126,17 +1126,17 @@ document.addEventListener('click', () => {
 });
 
 // ── KPI Data ─────────────────────────────────────────────────────────────────
-// Entry dates into Active Developments (sourced from Monday activity log research)
+// Entry dates into Active Developments (actual development start dates)
 const ACTIVE_ENTRY_DATES = {
-  '18364310204': '2025-11-06', // Bread Steel Duo
+  '18364450778': '2025-03-20', // Bread Knife
+  '18364451333': '2025-07-17', // Bread Lame
+  '18364459284': '2025-10-10', // Sourdough Home Plus
+  '18364460003': '2025-10-21', // Proofing Mat
+  '18364460937': '2025-10-21', // Glass Proofing Container
   '18364614638': '2025-12-11', // 1 Box Sheeter Package
-  '18364450778': '2025-11-06', // Bread Knife
-  '18364459284': '2025-11-06', // Sourdough Home Plus
-  '18364451333': '2025-11-06', // Scoring Knife
   '10782814193': '2026-03-17', // New Banneton Sizes
   '18366766347': '2026-03-26', // Bread Pan
-  '18364460003': '2025-11-06', // Proofing Mat
-  '18364460937': '2025-11-06', // Glass Proofing Container
+  '18364458108': '2026-05-15', // Starter Kit
 };
 
 // Entry dates for Completed Developments (created_at from monday.com)
@@ -1225,12 +1225,21 @@ function renderTimeline(allItems) {
   // ── Date range: earliest entry → latest FCS ─────────────────────────────
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+<<<<<<< Updated upstream
 
   const fcsDates = allRows.map(r => parseDate(r.fcs));
   const maxDate  = new Date(Math.max(...fcsDates));
 
   // Always start 1 month before today; end 2 months after latest FCS
   const rangeStart = monthStart(today, -1);
+=======
+  const fcsDates   = allRows.map(r => parseDate(r.fcs));
+  const entryDates = allRows.map(r => parseDate(r.entry));
+  const maxDate    = new Date(Math.max(...fcsDates));
+  const minEntry   = new Date(Math.min(...entryDates));
+  // Start 1 month before the earliest entry date so bars have breathing room
+  const rangeStart = monthStart(minEntry, -1);
+>>>>>>> Stashed changes
   const rangeEnd   = monthStart(maxDate, 2);
 
   const totalMs = rangeEnd - rangeStart;
