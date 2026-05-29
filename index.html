@@ -12,7 +12,6 @@
       background: #f6f7fb;
       color: #323338;
     }
-
     /* ── Password Gate ── */
     #password-gate {
       display: none;
@@ -61,7 +60,6 @@
       cursor: pointer;
     }
     #pw-submit:hover { background: #0060c0; }
-
     /* ── Token Modal ── */
     #token-modal {
       display: none;
@@ -108,7 +106,6 @@
       cursor: pointer;
     }
     #connect-btn:hover { background: #0060c0; }
-
     /* ── Header ── */
     .header {
       background: #fff;
@@ -126,7 +123,6 @@
     .header-actions { display: flex; align-items: center; gap: 10px; }
     #last-updated    { font-size: 12px; color: #676879; }
     #next-refresh    { font-size: 11px; color: #c5c7d4; }
-
     .btn {
       padding: 6px 12px;
       border-radius: 6px;
@@ -144,7 +140,6 @@
     .btn-primary { background: #0073ea; color: #fff; }
     .btn-primary:hover { background: #0060c0; }
     .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
     /* ── History button badge ── */
     .btn-history {
       background: transparent;
@@ -176,7 +171,6 @@
       line-height: 1;
     }
     #history-badge.show { display: flex; }
-
     /* ── Layout with sidebar ── */
     .app-body {
       display: flex;
@@ -195,7 +189,6 @@
       padding: 24px 24px 32px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     }
-
     /* ── History Sidebar ── */
     #history-sidebar {
       width: 0;
@@ -249,7 +242,6 @@
       transition: background 0.15s;
     }
     .sidebar-close:hover { background: #f6f7fb; }
-
     /* Filter tabs inside sidebar */
     .sidebar-filters {
       display: flex;
@@ -271,7 +263,6 @@
     }
     .filter-chip:hover { border-color: #0073ea; color: #0073ea; }
     .filter-chip.active { background: #0073ea; border-color: #0073ea; color: #fff; }
-
     /* Sidebar body / log */
     .sidebar-body {
       flex: 1;
@@ -290,7 +281,6 @@
       margin: 0 auto 12px;
       opacity: 0.3;
     }
-
     /* Change entry */
     .change-entry {
       padding: 10px 18px 10px;
@@ -355,17 +345,14 @@
     .change-to.conf-mid    { color: #3d73ea; }
     .change-to.conf-low    { color: #c87400; }
     .change-to.conf-vlow   { color: #7a7a7a; }
-
     /* Date changes */
     .change-to.date-change { color: #0073ea; }
-
     /* Group label pill */
     .change-group {
       font-size: 10px;
       color: #9699a6;
       margin-top: 3px;
     }
-
     /* Sidebar loading */
     .sidebar-loading {
       padding: 40px 20px;
@@ -373,7 +360,6 @@
       color: #9699a6;
       font-size: 12px;
     }
-
     /* ── Chart ── */
     .chart-header {
       display: flex;
@@ -383,7 +369,6 @@
     }
     .label-spacer { flex-shrink: 0; }
     .months-bar   { position: relative; flex: 1; height: 22px; }
-
     .month-tick {
       position: absolute;
       font-size: 11px;
@@ -403,7 +388,6 @@
       transform: translateX(-50%);
       white-space: nowrap;
     }
-
     /* Item rows */
     .item-row {
       display: flex;
@@ -448,7 +432,6 @@
       background: #e2445c;
       z-index: 3;
     }
-
     /* Dot + badge */
     .dot-wrapper {
       position: absolute;
@@ -482,7 +465,6 @@
       white-space: nowrap;
       pointer-events: none;
     }
-
     /* ── Tooltip ── */
     #tooltip {
       position: fixed;
@@ -503,7 +485,6 @@
     .tt-date   { color: #c5c7d4; font-size: 11px; margin-bottom: 6px; }
     .tt-conf   { display: flex; align-items: center; gap: 6px; font-size: 12px; }
     .tt-swatch { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
     /* ── Legend ── */
     .legend {
       display: flex;
@@ -521,7 +502,6 @@
       color: #676879;
     }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
-
     /* ── States ── */
     .state-msg { padding: 48px; text-align: center; color: #676879; font-size: 14px; }
     .state-error {
@@ -533,14 +513,12 @@
       font-size: 13px;
     }
     .state-error a { color: #d83a52; font-weight: 600; }
-
     /* ── Chart scroll wrapper ── */
     .chart-scroll {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
     }
     .chart-inner { /* min-width set via JS */ }
-
     /* ── View tabs ── */
     .view-tabs {
       display: flex;
@@ -566,7 +544,6 @@
       border-bottom-color: #0073ea;
       font-weight: 700;
     }
-
     /* ── KPI section ── */
     .kpi-grid {
       display: grid;
@@ -652,7 +629,6 @@
       background: #f3f4f8;
       margin: 16px 0;
     }
-
     /* ── Timeline bar chart ── */
     .tl-bar-wrap {
       position: absolute;
@@ -694,7 +670,6 @@
       flex-shrink: 0;
       padding-right: 14px;
     }
-
     /* ── Mobile ── */
     @media (max-width: 680px) {
       .header {
@@ -735,7 +710,6 @@
   </style>
 </head>
 <body>
-
 <!-- Password Gate -->
 <div id="password-gate" class="show">
   <div class="pw-box">
@@ -747,7 +721,6 @@
     <button id="pw-submit" onclick="checkPassword()">View Chart</button>
   </div>
 </div>
-
 <!-- Token Modal -->
 <div id="token-modal">
   <div class="modal-box">
@@ -758,7 +731,6 @@
     <button id="connect-btn" onclick="saveToken()">Connect</button>
   </div>
 </div>
-
 <!-- Header -->
 <div class="header">
   <h1>Product Launch FCS Dates</h1>
@@ -776,7 +748,6 @@
     <button class="btn btn-primary" id="refresh-btn" onclick="loadData(true)">Refresh</button>
   </div>
 </div>
-
 <!-- App body: chart + sidebar -->
 <div class="app-body">
   <!-- Main content -->
@@ -795,6 +766,12 @@
         </div>
       </div>
     </div>
+    <!-- KPI view -->
+    <div id="view-kpis" style="display:none">
+      <div id="kpi-area">
+        <div class="state-msg">Loading KPIs…</div>
+      </div>
+    </div>
     <!-- Timeline view -->
     <div id="view-timeline" style="display:none">
       <div class="card">
@@ -803,14 +780,7 @@
         </div>
       </div>
     </div>
-    <!-- KPI view -->
-    <div id="view-kpis" style="display:none">
-      <div id="kpi-area">
-        <div class="state-msg">Loading KPIs…</div>
-      </div>
-    </div>
   </div>
-
   <!-- Change History Sidebar -->
   <div id="history-sidebar">
     <div class="sidebar-inner">
@@ -824,19 +794,16 @@
         </div>
         <button class="sidebar-close" onclick="closeSidebar()" title="Close">✕</button>
       </div>
-
       <div class="sidebar-filters">
         <button class="filter-chip active" data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
         <button class="filter-chip"        data-filter="confidence" onclick="setFilter('confidence',this)">Confidence</button>
       </div>
-
       <div class="sidebar-body" id="sidebar-body">
         <div class="sidebar-loading">Loading change history…</div>
       </div>
     </div>
   </div>
 </div>
-
 <!-- Tooltip -->
 <div id="tooltip">
   <div class="tt-name"  id="tt-name"></div>
@@ -846,7 +813,6 @@
     <span id="tt-conf-text"></span>
   </div>
 </div>
-
 <script>
 // ── Config ──────────────────────────────────────────────────────────────────
 const BOARD_ID        = 18364310005;
@@ -856,7 +822,6 @@ const CONF_COL        = 'numeric_mkz3rvnr';
 const HISTORY_FILE    = './history.json';
 const AUTO_REFRESH_MS = 5 * 60 * 1000;  // 5 minutes
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
 // Columns tracked for diffing (history.json key → human title)
 const TRACKED_COLS = {
   'date_mm06txhj':    'FCS Date',
@@ -867,7 +832,6 @@ const TRACKED_COLS = {
   'boolean_mm06jadd': 'Post-Tool Review',
   'name':             'Name'
 };
-
 // ── Confidence colours ───────────────────────────────────────────────────────
 function confColor(pct) {
   if (pct >= 90) return '#00c875';
@@ -881,10 +845,8 @@ function confClass(pct) {
   if (pct >= 60) return 'conf-low';
   return 'conf-vlow';
 }
-
 // ── Saved token ──────────────────────────────────────────────────────────────
 const SAVED_TOKEN = '';
-
 function getToken()  { return SAVED_TOKEN || localStorage.getItem('monday_token'); }
 function saveToken() {
   const t = document.getElementById('token-input').value.trim();
@@ -898,14 +860,12 @@ function clearToken() {
   document.getElementById('token-input').value = '';
   document.getElementById('token-modal').classList.add('open');
 }
-
 // ── API ──────────────────────────────────────────────────────────────────────
 // Fetch ALL items from ALL groups with ALL tracked columns.
 // Returns full item list; chart rendering filters from this.
 async function fetchItems(token) {
   const ALL_COLS = [FCS_COL, CONF_COL, 'status', 'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd'];
   const colIds   = ALL_COLS.map(c => `"${c}"`).join(', ');
-
   const query = `{
     boards(ids: [${BOARD_ID}]) {
       groups {
@@ -919,7 +879,6 @@ async function fetchItems(token) {
       }
     }
   }`;
-
   const res = await fetch('https://api.monday.com/v2', {
     method: 'POST',
     headers: {
@@ -929,11 +888,9 @@ async function fetchItems(token) {
     },
     body: JSON.stringify({ query })
   });
-
   if (!res.ok) throw new Error(`HTTP ${res.status} - check your API token`);
   const json = await res.json();
   if (json.errors) throw new Error(json.errors.map(e => e.message).join('; '));
-
   const allItems = [];
   for (const group of json.data.boards[0].groups) {
     for (const item of group.items_page.items) {
@@ -954,7 +911,6 @@ async function fetchItems(token) {
   }
   return allItems;
 }
-
 // ── Date helpers ─────────────────────────────────────────────────────────────
 function parseDate(s) {
   const [y, m, d] = s.split('-').map(Number);
@@ -976,43 +932,34 @@ function formatChangeTime(isoStr) {
   const diffMins = Math.floor(diffMs / 60000);
   const diffHrs  = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
-
   if (diffMins < 1)   return 'Just now';
   if (diffMins < 60)  return `${diffMins}m ago`;
   if (diffHrs  < 24)  return `${diffHrs}h ago`;
   if (diffDays < 7)   return `${diffDays}d ago`;
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
 }
-
 // ── Render chart ─────────────────────────────────────────────────────────────
 function renderChart(items) {
   const area = document.getElementById('chart-area');
-
   if (!items.length) {
     area.innerHTML = '<div class="state-msg">No items with FCS dates found in the Active Developments group.</div>';
     return;
   }
-
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-
   const allDates = items.map(i => parseDate(i.fcsDate));
   const maxDate  = new Date(Math.max(...allDates));
-
   // Always start 1 month before today; end 2 months after latest FCS
   const rangeStart = monthStart(today, -1);
   const rangeEnd   = monthStart(maxDate, 2);
-
   const totalMs = rangeEnd - rangeStart;
   const pct = d => ((d - rangeStart) / totalMs) * 100;
-
   const monthList = [];
   let cur = new Date(rangeStart);
   while (cur < rangeEnd) {
     monthList.push(new Date(cur));
     cur = monthStart(cur, 1);
   }
-
   const isMobile = window.innerWidth < 680;
   const cvs = document.createElement('canvas');
   const ctx = cvs.getContext('2d');
@@ -1022,9 +969,7 @@ function renderChart(items) {
   const labelW = Math.min(maxLabel, Math.max(minLabel,
     Math.max(...items.map(i => ctx.measureText(i.name).width)) + 20
   ));
-
   const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
-
   const monthTicksHtml = monthList.map(m => {
     const p     = pct(m);
     const label = (m.getMonth() === 0 || m === monthList[0])
@@ -1032,16 +977,13 @@ function renderChart(items) {
       : MONTHS[m.getMonth()];
     return `<div class="month-tick" style="left:${p}%">${label}</div>`;
   }).join('');
-
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
-
   const rowsHtml = items.map(item => {
     const dp     = pct(parseDate(item.fcsDate));
     const color  = confColor(item.confidence ?? 0);
     const badge  = item.confidence != null ? item.confidence + '%' : '-';
-
     return `
       <div class="item-row">
         <div class="item-label" style="width:${labelW}px" title="${esc(item.name)}">${esc(item.name)}</div>
@@ -1064,7 +1006,6 @@ function renderChart(items) {
         </div>
       </div>`;
   }).join('');
-
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>90-100%</div>
@@ -1072,7 +1013,6 @@ function renderChart(items) {
       <div class="legend-item"><div class="legend-dot" style="background:#fdab3d"></div>60-74%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#c4c4c4"></div>&lt;60%</div>
     </div>`;
-
   area.innerHTML = `
     <div class="chart">
       <div class="chart-scroll">
@@ -1087,7 +1027,6 @@ function renderChart(items) {
       ${legendHtml}
     </div>`;
 }
-
 // ── Tooltip ──────────────────────────────────────────────────────────────────
 function showTip(e, el) {
   document.getElementById('tt-name').textContent      = el.dataset.name;
@@ -1107,7 +1046,6 @@ function hideTip() {
   tt.classList.remove('show');
   tt.classList.remove('mobile-show');
 }
-
 let tapTimer = null;
 function tapTip(e, el) {
   if (window.innerWidth >= 680) return;
@@ -1124,7 +1062,6 @@ function tapTip(e, el) {
 document.addEventListener('click', () => {
   if (window.innerWidth < 680) hideTip();
 });
-
 // ── KPI Data ─────────────────────────────────────────────────────────────────
 // Entry dates into Active Developments (actual development start dates)
 const ACTIVE_ENTRY_DATES = {
@@ -1138,7 +1075,6 @@ const ACTIVE_ENTRY_DATES = {
   '18366766347': '2026-03-26', // Bread Pan
   '18364458108': '2026-05-15', // Starter Kit
 };
-
 // Entry dates for Completed Developments (created_at from monday.com)
 const COMPLETED_ENTRY_DATES = {
   '18364310204': '2025-11-06', // Bread Steel Duo
@@ -1148,7 +1084,6 @@ const COMPLETED_ENTRY_DATES = {
   '18364310166': '2025-11-06', // Sheeter
   // Bannetons excluded — FCS date predates board creation (retroactive entry)
 };
-
 // KPI 1: Historical forecast data for completed products
 // forecast3mo = FCS date prediction closest to 3 months before actual launch
 // (Sheeter & Bannetons excluded — FCS was set retroactively, no predictive data)
@@ -1157,24 +1092,21 @@ const FORECAST_HISTORY = [
   { name: 'Essentials Kit',  launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
   { name: 'Starter Spatula', launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
 ];
-
 let liveItemsCache = [];
-
 function shortDate(s) {
   if (!s) return '—';
   return parseDate(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
-
 // ── View switching ────────────────────────────────────────────────────────────
 let currentView = 'roadmap';
 function switchView(view) {
   currentView = view;
   document.getElementById('view-roadmap').style.display  = view === 'roadmap'  ? '' : 'none';
-  document.getElementById('view-timeline').style.display = view === 'timeline' ? '' : 'none';
   document.getElementById('view-kpis').style.display     = view === 'kpis'     ? '' : 'none';
+  document.getElementById('view-timeline').style.display = view === 'timeline' ? '' : 'none';
   document.getElementById('tab-roadmap').classList.toggle('active',  view === 'roadmap');
-  document.getElementById('tab-timeline').classList.toggle('active', view === 'timeline');
   document.getElementById('tab-kpis').classList.toggle('active',     view === 'kpis');
+  document.getElementById('tab-timeline').classList.toggle('active', view === 'timeline');
   if (view === 'kpis') {
     if (liveItemsCache.length) renderKPIs(liveItemsCache);
     else document.getElementById('kpi-area').innerHTML =
@@ -1186,12 +1118,10 @@ function switchView(view) {
       '<div class="state-msg">Connect to monday.com to load timeline.</div>';
   }
 }
-
 // ── Timeline render ───────────────────────────────────────────────────────────
 function renderTimeline(allItems) {
   const area = document.getElementById('timeline-area');
   if (!area || currentView !== 'timeline') return;
-
   // Build rows: Active first, then Completed
   const activeRows = allItems
     .filter(i => i.group_id === GROUP_ID && i.fcsDate && ACTIVE_ENTRY_DATES[i.id])
@@ -1203,7 +1133,6 @@ function renderTimeline(allItems) {
       type:   'active'
     }))
     .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
-
   const completedRows = allItems
     .filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate && COMPLETED_ENTRY_DATES[i.id])
     .map(i => ({
@@ -1215,41 +1144,27 @@ function renderTimeline(allItems) {
     }))
     .filter(r => r.months > 0)
     .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
-
   const allRows = [...activeRows, ...completedRows];
   if (!allRows.length) {
     area.innerHTML = '<div class="state-msg">No timeline data available.</div>';
     return;
   }
-
-  // ── Date range: earliest entry → latest FCS ─────────────────────────────
+  // ── Date range ──────────────────────────────────────────────────────────
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-<<<<<<< Updated upstream
-
-  const fcsDates = allRows.map(r => parseDate(r.fcs));
-  const maxDate  = new Date(Math.max(...fcsDates));
-
-  // Always start 1 month before today; end 2 months after latest FCS
-  const rangeStart = monthStart(today, -1);
-=======
   const fcsDates   = allRows.map(r => parseDate(r.fcs));
   const entryDates = allRows.map(r => parseDate(r.entry));
   const maxDate    = new Date(Math.max(...fcsDates));
   const minEntry   = new Date(Math.min(...entryDates));
   // Start 1 month before the earliest entry date so bars have breathing room
   const rangeStart = monthStart(minEntry, -1);
->>>>>>> Stashed changes
   const rangeEnd   = monthStart(maxDate, 2);
-
   const totalMs = rangeEnd - rangeStart;
   const pct = d => ((d - rangeStart) / totalMs) * 100;
-
   // Month ticks
   const monthList = [];
   let cur = new Date(rangeStart);
   while (cur < rangeEnd) { monthList.push(new Date(cur)); cur = monthStart(cur, 1); }
-
   // Label column width
   const isMobile = window.innerWidth < 680;
   const cvs = document.createElement('canvas');
@@ -1258,20 +1173,16 @@ function renderTimeline(allItems) {
   const labelW = Math.min(isMobile ? 130 : 220, Math.max(isMobile ? 90 : 120,
     Math.max(...allRows.map(r => ctx2.measureText(r.name).width)) + 20
   ));
-
   const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
-
   const monthTicksHtml = monthList.map(m => {
     const p     = pct(m);
     const label = (m.getMonth() === 0 || m === monthList[0])
       ? `${MONTHS[m.getMonth()]} ${m.getFullYear()}` : MONTHS[m.getMonth()];
     return `<div class="month-tick" style="left:${p}%">${label}</div>`;
   }).join('');
-
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
-
   // ── Section header row ─────────────────────────────────────────────────
   function sectionRowHtml(label, count) {
     return `
@@ -1282,7 +1193,6 @@ function renderTimeline(allItems) {
         </div>
       </div>`;
   }
-
   // ── Bar row ────────────────────────────────────────────────────────────
   function barRowHtml(row) {
     const rawStartPct = pct(parseDate(row.entry));
@@ -1297,7 +1207,6 @@ function renderTimeline(allItems) {
     const labelHtml   = labelInside
       ? `<span class="tl-dur-label" style="right:7px;color:#fff;">${esc(durLabel)}</span>`
       : `<span class="tl-dur-label" style="left:calc(100% + 6px);color:${color};">${esc(durLabel)}</span>`;
-
     return `
       <div class="item-row">
         <div class="item-label" style="width:${labelW}px" title="${esc(row.name)}">${esc(row.name)}</div>
@@ -1311,7 +1220,6 @@ function renderTimeline(allItems) {
         </div>
       </div>`;
   }
-
   const rowsHtml = [
     sectionRowHtml('Active Developments', activeRows.length),
     ...activeRows.map(barRowHtml),
@@ -1320,13 +1228,11 @@ function renderTimeline(allItems) {
       ...completedRows.map(barRowHtml)
     ] : [])
   ].join('');
-
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#0073ea"></div>Active Development</div>
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>Completed</div>
     </div>`;
-
   area.innerHTML = `
     <div class="chart">
       <div class="chart-scroll">
@@ -1341,13 +1247,11 @@ function renderTimeline(allItems) {
       ${legendHtml}
     </div>`;
 }
-
 // ── KPI render ────────────────────────────────────────────────────────────────
 function renderKPIs(allItems) {
   liveItemsCache = allItems;
   const area = document.getElementById('kpi-area');
   if (!area || currentView !== 'kpis') return;
-
   // ── KPI 2: Time to Market (active items only) ─────────────────────────────
   const activeItems = allItems.filter(i => i.group_id === GROUP_ID && i.fcsDate);
   const cycleRows = activeItems
@@ -1359,14 +1263,12 @@ function renderKPIs(allItems) {
       return { name: i.name, entry: ACTIVE_ENTRY_DATES[i.id], fcs: i.fcsDate, months };
     })
     .sort((a, b) => a.months - b.months);
-
   const sorted = [...cycleRows.map(r => r.months)].sort((a, b) => a - b);
   const medianMonths = sorted.length
     ? (sorted.length % 2 === 0
         ? (sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2
         : sorted[Math.floor(sorted.length/2)])
     : null;
-
   // ── Completed items: actual time to market ────────────────────────────────
   const completedItems = allItems.filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate);
   const completedRows = completedItems
@@ -1379,24 +1281,19 @@ function renderKPIs(allItems) {
     })
     .filter(r => r.months > 0)
     .sort((a, b) => a.months - b.months);
-
   const completedAvg = completedRows.length
     ? completedRows.reduce((s, r) => s + r.months, 0) / completedRows.length
     : null;
-
   // ── KPI 1: Forecast Accuracy (completed products) ─────────────────────────
   const errors3mo = FORECAST_HISTORY
     .filter(f => f.forecast3mo)
     .map(f => (parseDate(f.forecast3mo) - parseDate(f.launchDate)) / 86400000);
-
   const avgAbsWeeks3mo = errors3mo.length
     ? (errors3mo.reduce((s, e) => s + Math.abs(e), 0) / errors3mo.length / 7).toFixed(1)
     : null;
   const n3mo = errors3mo.length;
-
   area.innerHTML = `
     <div class="kpi-grid">
-
       <!-- KPI 1: Forecast Accuracy -->
       <div class="card">
         <div class="kpi-card-title">New Product Forecast Accuracy</div>
@@ -1435,7 +1332,6 @@ function renderKPIs(allItems) {
           more products are in-flight for longer. Data updates automatically as products ship.
         </div>
       </div>
-
       <!-- KPI 2: Time to Market -->
       <div class="card">
         <div class="kpi-card-title">Estimated Time to Market</div>
@@ -1445,7 +1341,6 @@ function renderKPIs(allItems) {
         <div class="kpi-big-number">${medianMonths ? medianMonths.toFixed(1) : '—'}<span class="kpi-big-unit">mo</span></div>
         <div class="kpi-big-label">median across ${cycleRows.length} active product${cycleRows.length !== 1 ? 's' : ''}</div>
         <div class="kpi-divider"></div>
-
         <!-- Active Developments section -->
         <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Active Developments</div>
         <table class="kpi-table">
@@ -1465,10 +1360,8 @@ function renderKPIs(allItems) {
               </tr>`).join('')}
           </tbody>
         </table>
-
         ${completedRows.length ? `
         <div class="kpi-divider" style="margin-top:18px;"></div>
-
         <!-- Completed Developments section -->
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
           <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;">Completed Developments</div>
@@ -1491,20 +1384,16 @@ function renderKPIs(allItems) {
               </tr>`).join('')}
           </tbody>
         </table>` : ''}
-
         <div class="kpi-note">
           Cycle times recalculate automatically when FCS dates change on Monday.com.
           Entry dates reflect when each product first entered Active Developments.
         </div>
       </div>
-
     </div>`;
 }
-
 // ── History & diffing ────────────────────────────────────────────────────────
 let historyData  = null;   // parsed history.json
 let activeFilter = 'date';  // 'date' | 'confidence'
-
 // Load history.json from the same origin
 async function loadHistory() {
   try {
@@ -1517,17 +1406,14 @@ async function loadHistory() {
       `<div class="sidebar-empty">Could not load history.json.<br><small>${esc(e.message)}</small></div>`;
   }
 }
-
 // ── Snapshot helpers (localStorage) ─────────────────────────────────────────
 // We store the most-recent live state here so every diff is incremental.
 // This means A→B then B→C are two separate records, never collapsed into A→C.
 const LS_SNAPSHOT_KEY = 'fcs_snapshot_v2';
-
 function getStoredSnapshot() {
   try { return JSON.parse(localStorage.getItem(LS_SNAPSHOT_KEY) || 'null'); }
   catch(e) { return null; }
 }
-
 function storeSnapshot(allItems) {
   const snap = {};
   allItems.forEach(item => {
@@ -1535,12 +1421,10 @@ function storeSnapshot(allItems) {
   });
   try { localStorage.setItem(LS_SNAPSHOT_KEY, JSON.stringify(snap)); } catch(e) {}
 }
-
 // Diff ALL live items (all groups, all fields) against the last stored snapshot.
 // After diffing, the current state becomes the new snapshot.
 function diffAndRecord(allItems) {
   if (!historyData) return;
-
   // Prefer localStorage snapshot (always up-to-date); fall back to history.json baseline
   let prevState = getStoredSnapshot();
   if (!prevState) {
@@ -1549,18 +1433,15 @@ function diffAndRecord(allItems) {
       prevState = snapshots[snapshots.length - 1].items || {};
     }
   }
-
   const now       = isoNow();
   const changelog = historyData.changelog;
   const DIFF_FIELDS = [
     'date_mm06txhj', 'numeric_mkz3rvnr', 'status',
     'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd', 'name'
   ];
-
   allItems.forEach(item => {
     const prev       = prevState ? prevState[item.id] : null;
     const groupTitle = GROUP_NAMES[item.group_id] || item.group_title || item.group_id;
-
     // ── New item: log an "added" event ──────────────────────────────────────
     if (!prev) {
       const isDupe = changelog.some(c => c.itemId === item.id && c.field === '_added');
@@ -1579,7 +1460,6 @@ function diffAndRecord(allItems) {
       }
       return; // will be in snapshot for future diffs
     }
-
     // ── Group move ───────────────────────────────────────────────────────────
     if (prev.group_id && prev.group_id !== item.group_id) {
       const fromGroup = GROUP_NAMES[prev.group_id] || prev.group_id;
@@ -1601,15 +1481,12 @@ function diffAndRecord(allItems) {
         });
       }
     }
-
     // ── Field changes ────────────────────────────────────────────────────────
     DIFF_FIELDS.forEach(field => {
       const liveVal = (field === 'name') ? item.name : item.colMap[field];
       const snapVal = prev[field];
-
       const normSnap = (snapVal == null || snapVal === '') ? null : String(snapVal);
       const normLive = (liveVal == null || liveVal === '') ? null : String(liveVal);
-
       if (normSnap !== normLive) {
         // Dedupe: exact same transition already logged
         const isDupe = changelog.some(c =>
@@ -1634,23 +1511,18 @@ function diffAndRecord(allItems) {
       }
     });
   });
-
   // ⚠️ Update snapshot AFTER diffing so the next refresh diffs against NOW
   storeSnapshot(allItems);
-
   persistChangelogLocally(changelog);
   mergeLocalChangelog();
   renderSidebar();
 }
-
 const LS_CHANGELOG_KEY = 'fcs_changelog_v1';
-
 function persistChangelogLocally(changelog) {
   try {
     localStorage.setItem(LS_CHANGELOG_KEY, JSON.stringify(changelog));
   } catch(e) { /* quota exceeded – ignore */ }
 }
-
 function mergeLocalChangelog() {
   if (!historyData) return;
   try {
@@ -1665,7 +1537,6 @@ function mergeLocalChangelog() {
     });
   } catch(e) { /* ignore */ }
 }
-
 const GROUP_NAMES = {
   'group_title':     'Concept Development',
   'group_mkxfjfcm':  'Product Upgrades / Cost Reductions',
@@ -1673,7 +1544,6 @@ const GROUP_NAMES = {
   'group_mkxncbsv':  'Completed Developments',
   'group_mkxnn81v':  'Ideas'
 };
-
 // ── Sidebar render ───────────────────────────────────────────────────────────
 function setFilter(filter, el) {
   activeFilter = filter;
@@ -1681,27 +1551,19 @@ function setFilter(filter, el) {
   el.classList.add('active');
   renderSidebar();
 }
-
 function renderSidebar() {
   if (!historyData) return;
-
   mergeLocalChangelog();
-
   const body = document.getElementById('sidebar-body');
-
   // Show all changes across all groups
   let entries = historyData.changelog.slice();
-
   if (activeFilter === 'date') {
     entries = entries.filter(c => c.field === 'date_mm06txhj');
   } else if (activeFilter === 'confidence') {
     entries = entries.filter(c => c.field === 'numeric_mkz3rvnr');
   }
-
   // Sort newest first
   entries = entries.slice().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
-
   if (!entries.length) {
     body.innerHTML = `
       <div class="sidebar-empty">
@@ -1713,7 +1575,6 @@ function renderSidebar() {
       </div>`;
     return;
   }
-
   body.innerHTML = entries.map(c => {
     let fromLabel, toLabel, toClass = '';
     if (c.field === '_added') {
@@ -1737,7 +1598,6 @@ function renderSidebar() {
       fromLabel = c.from || '—';
       toLabel   = c.to   || '—';
     }
-
     return `
       <div class="change-entry">
         <div class="change-entry-header">
@@ -1753,7 +1613,6 @@ function renderSidebar() {
       </div>`;
   }).join('');
 }
-
 // ── Sidebar toggle ───────────────────────────────────────────────────────────
 function toggleSidebar() {
   const sidebar = document.getElementById('history-sidebar');
@@ -1771,50 +1630,39 @@ function closeSidebar() {
   document.getElementById('history-sidebar').classList.remove('open');
   document.getElementById('history-btn').classList.remove('active');
 }
-
 // ── Load data + auto-refresh ─────────────────────────────────────────────────
 let refreshTimer   = null;
 let countdownTimer = null;
 let nextRefreshAt  = null;
-
 async function loadData(manual = false) {
   const token = getToken();
   if (!token) { document.getElementById('token-modal').classList.add('open'); return; }
-
   const btn = document.getElementById('refresh-btn');
   btn.disabled    = true;
   btn.textContent = 'Loading...';
-
   clearTimeout(refreshTimer);
   clearInterval(countdownTimer);
   document.getElementById('next-refresh').textContent = '';
-
   try {
     const allItems  = await fetchItems(token);
-
     // Chart only shows Active Developments items that have an FCS date
     const chartItems = allItems
       .filter(i => i.group_id === GROUP_ID && i.fcsDate)
       .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
     renderChart(chartItems);
-
     // Update shared cache; render whichever secondary views are active
     liveItemsCache = allItems;
     renderKPIs(allItems);
     renderTimeline(allItems);
-
     // Diff the full board (all groups, all fields) for the change history
     if (historyData) {
       diffAndRecord(allItems);
     }
-
     const now = new Date();
     document.getElementById('last-updated').textContent =
       'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
     nextRefreshAt = Date.now() + AUTO_REFRESH_MS;
     refreshTimer  = setTimeout(() => loadData(), AUTO_REFRESH_MS);
-
     countdownTimer = setInterval(() => {
       const secs = Math.max(0, Math.round((nextRefreshAt - Date.now()) / 1000));
       const m    = Math.floor(secs / 60);
@@ -1823,7 +1671,6 @@ async function loadData(manual = false) {
         `Next refresh ${m}:${String(s).padStart(2, '0')}`;
       if (secs === 0) clearInterval(countdownTimer);
     }, 1000);
-
   } catch (err) {
     document.getElementById('chart-area').innerHTML = `
       <div class="state-error">
@@ -1835,7 +1682,6 @@ async function loadData(manual = false) {
     btn.textContent = 'Refresh';
   }
 }
-
 // ── Utils ────────────────────────────────────────────────────────────────────
 function esc(s) {
   return String(s)
@@ -1844,15 +1690,12 @@ function esc(s) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 }
-
 // ── Init ─────────────────────────────────────────────────────────────────────
 document.getElementById('token-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') saveToken();
 });
-
 // Load history.json on startup (no token needed)
 loadHistory();
-
 if (getToken()) {
   loadData();
 } else {
@@ -1860,7 +1703,6 @@ if (getToken()) {
   document.getElementById('chart-area').innerHTML =
     '<div class="state-msg">Enter your monday.com API token to get started.</div>';
 }
-
 // ── Password gate ────────────────────────────────────────────────────────────
 const PAGE_PASSWORD = 'btfcs';
 function checkPassword() {
@@ -1880,7 +1722,6 @@ function checkPassword() {
 if (sessionStorage.getItem('page_unlocked') === '1') {
   document.getElementById('password-gate').classList.remove('show');
 }
-
 </script>
 </body>
 </html>
