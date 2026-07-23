@@ -502,6 +502,24 @@
       color: #676879;
     }
     .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+    /* ── Secondary roadmap section (Product Upgrades / Cost Reductions) ── */
+    .roadmap-secondary {
+      margin-top: 14px;
+      padding: 12px 14px 4px;
+      background: #f2f3f7;
+      border: 1px solid #e6e9ef;
+      border-radius: 10px;
+    }
+    .roadmap-secondary-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9699a6;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+      padding-left: 2px;
+    }
+    .dot-wrapper-secondary .dot { border-color: #dfe2ec; }
     /* ── States ── */
     .state-msg { padding: 48px; text-align: center; color: #676879; font-size: 14px; }
     .state-error {
@@ -817,6 +835,7 @@
 // ── Config ──────────────────────────────────────────────────────────────────
 const BOARD_ID        = 18364310005;
 const GROUP_ID        = 'topics';
+const UPGRADES_GROUP_ID = 'group_mkxfjfcm'; // Product Upgrades / Cost Reductions
 const FCS_COL         = 'date_mm06txhj';
 const CONF_COL        = 'numeric_mkz3rvnr';
 const HISTORY_FILE    = './history.json';
@@ -872,7 +891,7 @@ async function fetchItems(token) {
         id title
         items_page(limit: 100) {
           items {
-            id name
+            id name created_at
             column_values(ids: [${colIds}]) { id text }
           }
         }
@@ -905,6 +924,7 @@ async function fetchItems(token) {
         group_title: group.title,
         fcsDate:     colMap[FCS_COL]  || null,
         confidence:  colMap[CONF_COL] ? parseFloat(colMap[CONF_COL]) : null,
+        createdAt:   item.created_at || null,
         colMap:      colMap
       });
     }
@@ -939,7 +959,7 @@ function formatChangeTime(isoStr) {
   return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
 }
 // ── Render chart ─────────────────────────────────────────────────────────────
-function renderChart(items) {
+function renderChart(items, secondaryItems = []) {
   const area = document.getElementById('chart-area');
   if (!items.length) {
     area.innerHTML = '<div class="state-msg">No items with FCS dates found in the Active Developments group.</div>';
@@ -947,7 +967,9 @@ function renderChart(items) {
   }
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const allDates = items.map(i => parseDate(i.fcsDate));
+  // Include secondary-section dates in the range so items in the
+  // Product Upgrades / Cost Reductions block below always fit on the same axis.
+  const allDates = items.concat(secondaryItems).map(i => parseDate(i.fcsDate));
   const maxDate  = new Date(Math.max(...allDates));
   // Always start 1 month before today; end 2 months after latest FCS
   const rangeStart = monthStart(today, -1);
@@ -967,7 +989,7 @@ function renderChart(items) {
   const maxLabel = isMobile ? 130 : 220;
   const minLabel = isMobile ? 90  : 120;
   const labelW = Math.min(maxLabel, Math.max(minLabel,
-    Math.max(...items.map(i => ctx.measureText(i.name).width)) + 20
+    Math.max(...items.concat(secondaryItems).map(i => ctx.measureText(i.name).width)) + 20
   ));
   const minChartWidth = Math.max(480, monthList.length * 80) + labelW;
   const monthTicksHtml = monthList.map(m => {
@@ -980,17 +1002,20 @@ function renderChart(items) {
   const gridHtml = monthList.map(m =>
     `<div class="grid-line" style="left:${pct(m)}%"></div>`
   ).join('');
-  const rowsHtml = items.map(item => {
+  // secondary=true gives the dot a subtly different border color (matching the
+  // gray section background) so the second block reads as visually distinct.
+  function dotRowHtml(item, secondary) {
     const dp     = pct(parseDate(item.fcsDate));
     const color  = confColor(item.confidence ?? 0);
     const badge  = item.confidence != null ? item.confidence + '%' : '-';
+    const dotCls = secondary ? 'dot-wrapper dot-wrapper-secondary' : 'dot-wrapper';
     return `
       <div class="item-row">
         <div class="item-label" style="width:${labelW}px" title="${esc(item.name)}">${esc(item.name)}</div>
         <div class="item-track">
           <div class="track-line"></div>
           ${gridHtml}
-          <div class="dot-wrapper"
+          <div class="${dotCls}"
             style="left:${dp}%"
             data-name="${esc(item.name)}"
             data-date="${esc(prettyDate(item.fcsDate))}"
@@ -1005,7 +1030,11 @@ function renderChart(items) {
           </div>
         </div>
       </div>`;
-  }).join('');
+  }
+  const rowsHtml = items.map(item => dotRowHtml(item, false)).join('');
+  const secondaryRowsHtml = secondaryItems.length
+    ? secondaryItems.map(item => dotRowHtml(item, true)).join('')
+    : '<div class="state-msg" style="padding:16px 4px;font-size:12px;">No items with an FCS date yet.</div>';
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>90-100%</div>
@@ -1022,6 +1051,10 @@ function renderChart(items) {
             <div class="months-bar">${monthTicksHtml}</div>
           </div>
           <div class="item-rows">${rowsHtml}</div>
+          <div class="roadmap-secondary">
+            <div class="roadmap-secondary-label">${esc(GROUP_NAMES[UPGRADES_GROUP_ID] || 'Product Upgrades / Cost Reductions')}</div>
+            <div class="item-rows">${secondaryRowsHtml}</div>
+          </div>
         </div>
       </div>
       ${legendHtml}
@@ -1122,15 +1155,22 @@ function switchView(view) {
 function renderTimeline(allItems) {
   const area = document.getElementById('timeline-area');
   if (!area || currentView !== 'timeline') return;
-  // Active Developments only
+  // Mirrors the Roadmap chart's item set exactly (Active Developments, has an FCS
+  // date) so every item on the Roadmap automatically shows up here too — no
+  // manual per-item setup required. If we have a confirmed dev-start date in
+  // ACTIVE_ENTRY_DATES we use it; otherwise we fall back to the item's
+  // created_at from monday.com so new items still populate automatically.
   const activeRows = allItems
-    .filter(i => i.group_id === GROUP_ID && i.fcsDate && ACTIVE_ENTRY_DATES[i.id])
-    .map(i => ({
-      name:   i.name,
-      entry:  ACTIVE_ENTRY_DATES[i.id],
-      fcs:    i.fcsDate,
-      months: (parseDate(i.fcsDate) - parseDate(ACTIVE_ENTRY_DATES[i.id])) / (1000*60*60*24*30.44),
-    }))
+    .filter(i => i.group_id === GROUP_ID && i.fcsDate)
+    .map(i => {
+      const entry = ACTIVE_ENTRY_DATES[i.id] || (i.createdAt ? i.createdAt.slice(0, 10) : i.fcsDate);
+      return {
+        name:   i.name,
+        entry:  entry,
+        fcs:    i.fcsDate,
+        months: Math.max((parseDate(i.fcsDate) - parseDate(entry)) / (1000*60*60*24*30.44), 0),
+      };
+    })
     .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
   if (!activeRows.length) {
     area.innerHTML = '<div class="state-msg">No timeline data available.</div>';
@@ -1596,11 +1636,15 @@ async function loadData(manual = false) {
   document.getElementById('next-refresh').textContent = '';
   try {
     const allItems  = await fetchItems(token);
-    // Chart only shows Active Developments items that have an FCS date
+    // Main roadmap: Active Developments items that have an FCS date
     const chartItems = allItems
       .filter(i => i.group_id === GROUP_ID && i.fcsDate)
       .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
-    renderChart(chartItems);
+    // Secondary roadmap block: Product Upgrades / Cost Reductions items with an FCS date
+    const upgradeItems = allItems
+      .filter(i => i.group_id === UPGRADES_GROUP_ID && i.fcsDate)
+      .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+    renderChart(chartItems, upgradeItems);
     // Update shared cache; render whichever secondary views are active
     liveItemsCache = allItems;
     renderKPIs(allItems);
