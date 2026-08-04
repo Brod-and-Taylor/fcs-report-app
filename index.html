@@ -853,7 +853,8 @@ const TRACKED_COLS = {
 };
 // ── Confidence colours ───────────────────────────────────────────────────────
 function confColor(pct) {
-  if (pct >= 90) return '#00c875';
+  if (pct >= 100) return '#00c875';
+  if (pct >= 90) return '#66d9a3';
   if (pct >= 75) return '#579bfc';
   if (pct >= 60) return '#fdab3d';
   return '#c4c4c4';
@@ -1037,7 +1038,8 @@ function renderChart(items, secondaryItems = []) {
     : '<div class="state-msg" style="padding:16px 4px;font-size:12px;">No items with an FCS date yet.</div>';
   const legendHtml = `
     <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>90-100%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>100%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#66d9a3"></div>90-99%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#579bfc"></div>75-89%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#fdab3d"></div>60-74%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#c4c4c4"></div>&lt;60%</div>
