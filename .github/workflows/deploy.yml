@@ -4,15 +4,17 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'   # hourly: sync change history from monday.com
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
@@ -22,8 +24,33 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
+      # Rebuild history.json from monday.com activity logs and commit it back.
+      # A failure here (e.g. monday API hiccup) never blocks the deploy.
+      - name: Sync change history from monday.com
+        id: history
+        continue-on-error: true
+        env:
+          MONDAY_TOKEN: ${{ secrets.SAVED_TOKEN }}
+        run: |
+          python3 scripts/update_history.py history.json
+          if git diff --quiet -- history.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
+            git add history.json
+            git commit -m "Sync change history from monday.com"
+            git pull --rebase origin main
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Scheduled runs only redeploy when the history actually changed
       - name: Inject API token
+        if: github.event_name != 'schedule' || steps.history.outputs.changed == 'true'
         env:
           SAVED_TOKEN: ${{ secrets.SAVED_TOKEN }}
         run: |
@@ -39,8 +66,10 @@ jobs:
           EOF
 
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'schedule' || steps.history.outputs.changed == 'true'
         with:
           path: .
 
       - uses: actions/deploy-pages@v4
+        if: github.event_name != 'schedule' || steps.history.outputs.changed == 'true'
         id: deployment

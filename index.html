@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Launch FCS Dates</title>
+  <title>Product Launch Dates</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow-x: hidden; }
@@ -347,6 +347,7 @@
     .change-to.conf-vlow   { color: #7a7a7a; }
     /* Date changes */
     .change-to.date-change { color: #0073ea; }
+    .change-to.fcs-change  { color: rgb(160, 112, 64); }
     /* Group label pill */
     .change-group {
       font-size: 10px;
@@ -448,6 +449,7 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.2);
       transition: transform 0.12s ease, box-shadow 0.12s ease;
     }
+    .dot-wrapper-fcs { z-index: 4; }
     .dot-wrapper:hover .dot {
       transform: scale(1.5);
       box-shadow: 0 2px 8px rgba(0,0,0,0.28);
@@ -562,91 +564,6 @@
       border-bottom-color: #0073ea;
       font-weight: 700;
     }
-    /* ── KPI section ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    @media (max-width: 900px) {
-      .kpi-grid { grid-template-columns: 1fr; }
-    }
-    .kpi-card-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: #323338;
-      margin-bottom: 4px;
-    }
-    .kpi-card-subtitle {
-      font-size: 12px;
-      color: #676879;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-    .kpi-big-number {
-      font-size: 48px;
-      font-weight: 800;
-      color: #323338;
-      line-height: 1;
-      margin-bottom: 4px;
-      letter-spacing: -1px;
-    }
-    .kpi-big-unit {
-      font-size: 20px;
-      font-weight: 600;
-      color: #676879;
-      margin-left: 2px;
-    }
-    .kpi-big-label {
-      font-size: 12px;
-      color: #9699a6;
-      margin-bottom: 20px;
-    }
-    .kpi-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .kpi-table th {
-      text-align: left;
-      padding: 5px 8px 5px 0;
-      font-size: 10px;
-      font-weight: 700;
-      color: #9699a6;
-      border-bottom: 1px solid #e6e9ef;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .kpi-table td {
-      padding: 8px 8px 8px 0;
-      border-bottom: 1px solid #f3f4f8;
-      color: #323338;
-      vertical-align: middle;
-    }
-    .kpi-table tr:last-child td { border-bottom: none; }
-    .kpi-tolerance {
-      font-size: 20px;
-      font-weight: 700;
-      color: #323338;
-    }
-    .kpi-tolerance.question { color: #c5c7d4; font-style: italic; }
-    .kpi-milestone-label { font-weight: 500; }
-    .kpi-sample-size { font-size: 11px; color: #9699a6; }
-    .kpi-months-val { font-weight: 700; color: #0073ea; }
-    .kpi-date-val { color: #676879; font-size: 12px; }
-    .kpi-note {
-      font-size: 11px;
-      color: #9699a6;
-      margin-top: 16px;
-      line-height: 1.5;
-      border-top: 1px solid #f3f4f8;
-      padding-top: 12px;
-    }
-    .kpi-divider {
-      height: 1px;
-      background: #f3f4f8;
-      margin: 16px 0;
-    }
     /* ── Timeline bar chart ── */
     .tl-bar-wrap {
       position: absolute;
@@ -731,7 +648,7 @@
 <!-- Password Gate -->
 <div id="password-gate" class="show">
   <div class="pw-box">
-    <h2>Product Launch FCS Dates</h2>
+    <h2>Product Launch Dates</h2>
     <p>Enter the password to view this page.</p>
     <input type="password" id="pw-input" placeholder="Password" autocomplete="off"
            onkeydown="if(event.key==='Enter')checkPassword()" />
@@ -751,7 +668,7 @@
 </div>
 <!-- Header -->
 <div class="header">
-  <h1>Product Launch FCS Dates</h1>
+  <h1>Product Launch Dates</h1>
   <div class="header-actions">
     <span id="last-updated"></span>
     <span id="next-refresh"></span>
@@ -773,7 +690,6 @@
     <!-- View tabs -->
     <div class="view-tabs">
       <button class="view-tab active" id="tab-roadmap"  onclick="switchView('roadmap')">Roadmap</button>
-      <button class="view-tab"        id="tab-kpis"     onclick="switchView('kpis')">KPIs</button>
       <button class="view-tab"        id="tab-timeline" onclick="switchView('timeline')">Timeline</button>
     </div>
     <!-- Roadmap view -->
@@ -782,12 +698,6 @@
         <div id="chart-area">
           <div class="state-msg">Loading...</div>
         </div>
-      </div>
-    </div>
-    <!-- KPI view -->
-    <div id="view-kpis" style="display:none">
-      <div id="kpi-area">
-        <div class="state-msg">Loading KPIs…</div>
       </div>
     </div>
     <!-- Timeline view -->
@@ -813,7 +723,9 @@
         <button class="sidebar-close" onclick="closeSidebar()" title="Close">✕</button>
       </div>
       <div class="sidebar-filters">
-        <button class="filter-chip active" data-filter="date"       onclick="setFilter('date',this)">FCS Date</button>
+        <button class="filter-chip active" data-filter="all"        onclick="setFilter('all',this)">All</button>
+        <button class="filter-chip"        data-filter="date"       onclick="setFilter('date',this)">FFS Date</button>
+        <button class="filter-chip"        data-filter="fcs"        onclick="setFilter('fcs',this)">FCS Date</button>
         <button class="filter-chip"        data-filter="confidence" onclick="setFilter('confidence',this)">Confidence</button>
       </div>
       <div class="sidebar-body" id="sidebar-body">
@@ -836,14 +748,23 @@
 const BOARD_ID        = 18364310005;
 const GROUP_ID        = 'topics';
 const UPGRADES_GROUP_ID = 'group_mkxfjfcm'; // Product Upgrades / Cost Reductions
-const FCS_COL         = 'date_mm06txhj';
+const FFS_COL         = 'date_mm06txhj';
 const CONF_COL        = 'numeric_mkz3rvnr';
+// GTM Launches board — source of the FCS date shown as a second point per product
+const GTM_BOARD_ID    = 18434045053;
+const FCS_COLOR       = 'rgb(160, 112, 64)';
+const GTM_FCS_COL     = 'date_mm7v9p4f';   // "FCS Date" column on GTM Launches
+// Roadmap item name → GTM Launches item name, for products named differently on the two boards
+const GTM_NAME_ALIASES = {
+  'Updated SDH/SDH+': 'SDH/SDH+ Updates',
+  'New Scale':        'Scale',
+};
 const HISTORY_FILE    = './history.json';
 const AUTO_REFRESH_MS = 5 * 60 * 1000;  // 5 minutes
 const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 // Columns tracked for diffing (history.json key → human title)
 const TRACKED_COLS = {
-  'date_mm06txhj':    'FCS Date',
+  'date_mm06txhj':    'FFS Date',
   'numeric_mkz3rvnr': 'Confidence',
   'status':           'Priority',
   'color_mkxf9nhp':   'Action',
@@ -884,7 +805,7 @@ function clearToken() {
 // Fetch ALL items from ALL groups with ALL tracked columns.
 // Returns full item list; chart rendering filters from this.
 async function fetchItems(token) {
-  const ALL_COLS = [FCS_COL, CONF_COL, 'status', 'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd'];
+  const ALL_COLS = [FFS_COL, CONF_COL, 'status', 'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd'];
   const colIds   = ALL_COLS.map(c => `"${c}"`).join(', ');
   const query = `{
     boards(ids: [${BOARD_ID}]) {
@@ -923,7 +844,7 @@ async function fetchItems(token) {
         name:        item.name,
         group_id:    group.id,
         group_title: group.title,
-        fcsDate:     colMap[FCS_COL]  || null,
+        ffsDate:     colMap[FFS_COL]  || null,
         confidence:  colMap[CONF_COL] ? parseFloat(colMap[CONF_COL]) : null,
         createdAt:   item.created_at || null,
         colMap:      colMap
@@ -931,6 +852,41 @@ async function fetchItems(token) {
     }
   }
   return allItems;
+}
+// ── GTM Launches (FCS dates) ─────────────────────────────────────────────────
+// Product names are matched across boards ignoring case, spacing & punctuation.
+function normName(s) { return (s || '').toLowerCase().replace(/[^a-z0-9]/g, ''); }
+// monday.com date column text is "YYYY-MM-DD" (optionally followed by a time)
+function isoFromText(t) { const m = (t || '').match(/\d{4}-\d{2}-\d{2}/); return m ? m[0] : null; }
+async function fetchGtmFcsDates(token) {
+  const query = `{
+    boards(ids: [${GTM_BOARD_ID}]) {
+      columns { id title type }
+      items_page(limit: 500) {
+        items { name column_values { id text } }
+      }
+    }
+  }`;
+  const res = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': token, 'API-Version': '2024-01' },
+    body: JSON.stringify({ query })
+  });
+  if (!res.ok) throw new Error(`GTM board HTTP ${res.status}`);
+  const json = await res.json();
+  if (json.errors) throw new Error(json.errors.map(e => e.message).join('; '));
+  const board = json.data.boards[0];
+  if (!board) throw new Error('GTM Launches board not accessible with this token');
+  const dateCols = board.columns.filter(c => c.type === 'date');
+  const fcsCol = dateCols.find(c => c.id === GTM_FCS_COL) || dateCols.find(c => /fcs/i.test(c.title));
+  if (!fcsCol) throw new Error('No FCS date column found on GTM Launches board');
+  const map = {};
+  for (const item of board.items_page.items) {
+    const cv = item.column_values.find(c => c.id === fcsCol.id);
+    const d = cv && isoFromText(cv.text);
+    if (d) map[normName(item.name)] = d;
+  }
+  return map;
 }
 // ── Date helpers ─────────────────────────────────────────────────────────────
 function parseDate(s) {
@@ -963,16 +919,18 @@ function formatChangeTime(isoStr) {
 function renderChart(items, secondaryItems = []) {
   const area = document.getElementById('chart-area');
   if (!items.length) {
-    area.innerHTML = '<div class="state-msg">No items with FCS dates found in the Active Developments group.</div>';
+    area.innerHTML = '<div class="state-msg">No items with FFS dates found in the Active Developments group.</div>';
     return;
   }
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   // Include secondary-section dates in the range so items in the
   // Product Upgrades / Cost Reductions block below always fit on the same axis.
-  const allDates = items.concat(secondaryItems).map(i => parseDate(i.fcsDate));
+  const allDates = items.concat(secondaryItems)
+    .flatMap(i => [i.ffsDate, i.fcsDate].filter(Boolean))
+    .map(parseDate);
   const maxDate  = new Date(Math.max(...allDates));
-  // Always start 1 month before today; end 2 months after latest FCS
+  // Always start 1 month before today; end 2 months after latest FFS
   const rangeStart = monthStart(today, -1);
   const rangeEnd   = monthStart(maxDate, 2);
   const totalMs = rangeEnd - rangeStart;
@@ -1006,7 +964,7 @@ function renderChart(items, secondaryItems = []) {
   // secondary=true gives the dot a subtly different border color (matching the
   // gray section background) so the second block reads as visually distinct.
   function dotRowHtml(item, secondary) {
-    const dp     = pct(parseDate(item.fcsDate));
+    const dp     = pct(parseDate(item.ffsDate));
     const color  = confColor(item.confidence ?? 0);
     const badge  = item.confidence != null ? item.confidence + '%' : '-';
     const dotCls = secondary ? 'dot-wrapper dot-wrapper-secondary' : 'dot-wrapper';
@@ -1019,7 +977,7 @@ function renderChart(items, secondaryItems = []) {
           <div class="${dotCls}"
             style="left:${dp}%"
             data-name="${esc(item.name)}"
-            data-date="${esc(prettyDate(item.fcsDate))}"
+            data-date="${esc(prettyDate(item.ffsDate))}"
             data-conf="${esc(badge)}"
             data-color="${color}"
             onmouseenter="showTip(event,this)"
@@ -1029,13 +987,27 @@ function renderChart(items, secondaryItems = []) {
             <div class="conf-badge" style="background:${color}">${badge}</div>
             <div class="dot" style="background:${color}"></div>
           </div>
+          ${item.fcsDate ? `
+          <div class="${dotCls} dot-wrapper-fcs"
+            style="left:${pct(parseDate(item.fcsDate))}%"
+            data-name="${esc(item.name)}"
+            data-date="${esc(prettyDate(item.fcsDate))}"
+            data-label="FCS (GTM Launches)"
+            data-color="${FCS_COLOR}"
+            onmouseenter="showTip(event,this)"
+            onmouseleave="hideTip()"
+            onmousemove="moveTip(event)"
+            onclick="tapTip(event,this)">
+            <div class="conf-badge" style="background:${FCS_COLOR}">FCS</div>
+            <div class="dot" style="background:${FCS_COLOR}"></div>
+          </div>` : ''}
         </div>
       </div>`;
   }
   const rowsHtml = items.map(item => dotRowHtml(item, false)).join('');
   const secondaryRowsHtml = secondaryItems.length
     ? secondaryItems.map(item => dotRowHtml(item, true)).join('')
-    : '<div class="state-msg" style="padding:16px 4px;font-size:12px;">No items with an FCS date yet.</div>';
+    : '<div class="state-msg" style="padding:16px 4px;font-size:12px;">No items with an FFS date yet.</div>';
   const legendHtml = `
     <div class="legend">
       <div class="legend-item"><div class="legend-dot" style="background:#00c875"></div>100%</div>
@@ -1043,6 +1015,7 @@ function renderChart(items, secondaryItems = []) {
       <div class="legend-item"><div class="legend-dot" style="background:#579bfc"></div>75-89%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#fdab3d"></div>60-74%</div>
       <div class="legend-item"><div class="legend-dot" style="background:#c4c4c4"></div>&lt;60%</div>
+      <div class="legend-item"><div class="legend-dot" style="background:${FCS_COLOR}"></div>FCS (GTM Launches)</div>
     </div>`;
   area.innerHTML = `
     <div class="chart">
@@ -1066,7 +1039,7 @@ function renderChart(items, secondaryItems = []) {
 function showTip(e, el) {
   document.getElementById('tt-name').textContent      = el.dataset.name;
   document.getElementById('tt-date').textContent      = el.dataset.date;
-  document.getElementById('tt-conf-text').textContent = 'Confidence: ' + el.dataset.conf;
+  document.getElementById('tt-conf-text').textContent = el.dataset.label || ('FFS · Confidence: ' + el.dataset.conf);
   document.getElementById('tt-swatch').style.background = el.dataset.color;
   document.getElementById('tooltip').classList.add('show');
   moveTip(e);
@@ -1088,7 +1061,7 @@ function tapTip(e, el) {
   clearTimeout(tapTimer);
   document.getElementById('tt-name').textContent      = el.dataset.name;
   document.getElementById('tt-date').textContent      = el.dataset.date;
-  document.getElementById('tt-conf-text').textContent = 'Confidence: ' + el.dataset.conf;
+  document.getElementById('tt-conf-text').textContent = el.dataset.label || ('FFS · Confidence: ' + el.dataset.conf);
   document.getElementById('tt-swatch').style.background = el.dataset.color;
   const tt = document.getElementById('tooltip');
   tt.classList.add('show', 'mobile-show');
@@ -1097,7 +1070,7 @@ function tapTip(e, el) {
 document.addEventListener('click', () => {
   if (window.innerWidth < 680) hideTip();
 });
-// ── KPI Data ─────────────────────────────────────────────────────────────────
+// ── Timeline Data ────────────────────────────────────────────────────────────
 // Entry dates into Active Developments (actual development start dates)
 const ACTIVE_ENTRY_DATES = {
   '18364450778': '2025-03-20', // Bread Knife
@@ -1110,43 +1083,15 @@ const ACTIVE_ENTRY_DATES = {
   '18366766347': '2026-03-26', // Bread Pan
   '18364458108': '2026-05-15', // Starter Kit
 };
-// Entry dates for Completed Developments (created_at from monday.com)
-const COMPLETED_ENTRY_DATES = {
-  '18364310204': '2025-11-06', // Bread Steel Duo
-  '18364327449': '2025-11-06', // Essentials Kit
-  '18364326517': '2025-11-06', // Starter Spatula
-  '18364310180': '2025-11-06', // Proofer Pro
-  '18364310166': '2025-11-06', // Sheeter
-  // Bannetons excluded — FCS date predates board creation (retroactive entry)
-};
-// KPI 1: Historical forecast data for completed products
-// forecast3mo = FCS date prediction closest to 3 months before actual launch
-// (Sheeter & Bannetons excluded — FCS was set retroactively, no predictive data)
-const FORECAST_HISTORY = [
-  { name: 'Proofer Pro',     launchDate: '2026-04-14', forecast3mo: '2026-04-19' },
-  { name: 'Essentials Kit',  launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
-  { name: 'Starter Spatula', launchDate: '2026-05-04', forecast3mo: '2026-03-31' },
-];
 let liveItemsCache = [];
-function shortDate(s) {
-  if (!s) return '—';
-  return parseDate(s).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-}
 // ── View switching ────────────────────────────────────────────────────────────
 let currentView = 'roadmap';
 function switchView(view) {
   currentView = view;
   document.getElementById('view-roadmap').style.display  = view === 'roadmap'  ? '' : 'none';
-  document.getElementById('view-kpis').style.display     = view === 'kpis'     ? '' : 'none';
   document.getElementById('view-timeline').style.display = view === 'timeline' ? '' : 'none';
   document.getElementById('tab-roadmap').classList.toggle('active',  view === 'roadmap');
-  document.getElementById('tab-kpis').classList.toggle('active',     view === 'kpis');
   document.getElementById('tab-timeline').classList.toggle('active', view === 'timeline');
-  if (view === 'kpis') {
-    if (liveItemsCache.length) renderKPIs(liveItemsCache);
-    else document.getElementById('kpi-area').innerHTML =
-      '<div class="state-msg">Connect to monday.com to load KPIs.</div>';
-  }
   if (view === 'timeline') {
     if (liveItemsCache.length) renderTimeline(liveItemsCache);
     else document.getElementById('timeline-area').innerHTML =
@@ -1157,33 +1102,33 @@ function switchView(view) {
 function renderTimeline(allItems) {
   const area = document.getElementById('timeline-area');
   if (!area || currentView !== 'timeline') return;
-  // Mirrors the Roadmap chart's item set exactly (Active Developments, has an FCS
+  // Mirrors the Roadmap chart's item set exactly (Active Developments, has an FFS
   // date) so every item on the Roadmap automatically shows up here too — no
   // manual per-item setup required. If we have a confirmed dev-start date in
   // ACTIVE_ENTRY_DATES we use it; otherwise we fall back to the item's
   // created_at from monday.com so new items still populate automatically.
   const activeRows = allItems
-    .filter(i => i.group_id === GROUP_ID && i.fcsDate)
+    .filter(i => i.group_id === GROUP_ID && i.ffsDate)
     .map(i => {
-      const entry = ACTIVE_ENTRY_DATES[i.id] || (i.createdAt ? i.createdAt.slice(0, 10) : i.fcsDate);
+      const entry = ACTIVE_ENTRY_DATES[i.id] || (i.createdAt ? i.createdAt.slice(0, 10) : i.ffsDate);
       return {
         name:   i.name,
         entry:  entry,
-        fcs:    i.fcsDate,
-        months: Math.max((parseDate(i.fcsDate) - parseDate(entry)) / (1000*60*60*24*30.44), 0),
+        ffs:    i.ffsDate,
+        months: Math.max((parseDate(i.ffsDate) - parseDate(entry)) / (1000*60*60*24*30.44), 0),
       };
     })
-    .sort((a, b) => parseDate(a.fcs) - parseDate(b.fcs));
+    .sort((a, b) => parseDate(a.ffs) - parseDate(b.ffs));
   if (!activeRows.length) {
     area.innerHTML = '<div class="state-msg">No timeline data available.</div>';
     return;
   }
   // ── Date range ──────────────────────────────────────────────────────────
-  const fcsDates   = activeRows.map(r => parseDate(r.fcs));
+  const ffsDates   = activeRows.map(r => parseDate(r.ffs));
   const entryDates = activeRows.map(r => parseDate(r.entry));
-  const maxDate    = new Date(Math.max(...fcsDates));
+  const maxDate    = new Date(Math.max(...ffsDates));
   const minEntry   = new Date(Math.min(...entryDates));
-  // Start 1 month before earliest entry; end 2 months after latest FCS
+  // Start 1 month before earliest entry; end 2 months after latest FFS
   const rangeStart = monthStart(minEntry, -1);
   const rangeEnd   = monthStart(maxDate, 2);
   const totalMs    = rangeEnd - rangeStart;
@@ -1210,7 +1155,7 @@ function renderTimeline(allItems) {
   // ── Bar row ────────────────────────────────────────────────────────────
   function barRowHtml(row) {
     const startPct = pct(parseDate(row.entry));
-    const endPct   = pct(parseDate(row.fcs));
+    const endPct   = pct(parseDate(row.ffs));
     const widthPct = Math.max(endPct - startPct, 0.5);
     const durLabel = row.months.toFixed(1) + ' mo';
     const labelInside = widthPct > 8;
@@ -1240,154 +1185,13 @@ function renderTimeline(allItems) {
       <div class="item-rows">${rowsHtml}</div>
     </div>`;
 }
-// ── KPI render ────────────────────────────────────────────────────────────────
-function renderKPIs(allItems) {
-  liveItemsCache = allItems;
-  const area = document.getElementById('kpi-area');
-  if (!area || currentView !== 'kpis') return;
-  // ── KPI 2: Time to Market (active items only) ─────────────────────────────
-  const activeItems = allItems.filter(i => i.group_id === GROUP_ID && i.fcsDate);
-  const cycleRows = activeItems
-    .filter(i => ACTIVE_ENTRY_DATES[i.id])
-    .map(i => {
-      const entry  = parseDate(ACTIVE_ENTRY_DATES[i.id]);
-      const fcs    = parseDate(i.fcsDate);
-      const months = (fcs - entry) / (1000 * 60 * 60 * 24 * 30.44);
-      return { name: i.name, entry: ACTIVE_ENTRY_DATES[i.id], fcs: i.fcsDate, months };
-    })
-    .sort((a, b) => a.months - b.months);
-  const sorted = [...cycleRows.map(r => r.months)].sort((a, b) => a - b);
-  const medianMonths = sorted.length
-    ? (sorted.length % 2 === 0
-        ? (sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2
-        : sorted[Math.floor(sorted.length/2)])
-    : null;
-  // ── Completed items: actual time to market ────────────────────────────────
-  const completedItems = allItems.filter(i => i.group_id === 'group_mkxncbsv' && i.fcsDate);
-  const completedRows = completedItems
-    .filter(i => COMPLETED_ENTRY_DATES[i.id])
-    .map(i => {
-      const entry  = parseDate(COMPLETED_ENTRY_DATES[i.id]);
-      const fcs    = parseDate(i.fcsDate);
-      const months = (fcs - entry) / (1000 * 60 * 60 * 24 * 30.44);
-      return { name: i.name, fcs: i.fcsDate, months };
-    })
-    .filter(r => r.months > 0)
-    .sort((a, b) => a.months - b.months);
-  const completedAvg = completedRows.length
-    ? completedRows.reduce((s, r) => s + r.months, 0) / completedRows.length
-    : null;
-  // ── KPI 1: Forecast Accuracy (completed products) ─────────────────────────
-  const errors3mo = FORECAST_HISTORY
-    .filter(f => f.forecast3mo)
-    .map(f => (parseDate(f.forecast3mo) - parseDate(f.launchDate)) / 86400000);
-  const avgAbsWeeks3mo = errors3mo.length
-    ? (errors3mo.reduce((s, e) => s + Math.abs(e), 0) / errors3mo.length / 7).toFixed(1)
-    : null;
-  const n3mo = errors3mo.length;
-  area.innerHTML = `
-    <div class="kpi-grid">
-      <!-- KPI 1: Forecast Accuracy -->
-      <div class="card">
-        <div class="kpi-card-title">New Product Forecast Accuracy</div>
-        <div class="kpi-card-subtitle">
-          Average tolerance (±weeks) between predicted and actual FCS date,<br>
-          measured at key milestones before launch
-        </div>
-        <table class="kpi-table">
-          <thead>
-            <tr>
-              <th style="width:44%">Milestone</th>
-              <th style="width:28%">Tolerance</th>
-              <th>Sample</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="kpi-milestone-label">12 months out</td>
-              <td><span class="kpi-tolerance question">?</span></td>
-              <td class="kpi-sample-size">No data yet</td>
-            </tr>
-            <tr>
-              <td class="kpi-milestone-label">6 months out</td>
-              <td><span class="kpi-tolerance question">?</span></td>
-              <td class="kpi-sample-size">No data yet</td>
-            </tr>
-            <tr>
-              <td class="kpi-milestone-label">3 months out</td>
-              <td><span class="kpi-tolerance">${avgAbsWeeks3mo ? `±${avgAbsWeeks3mo} wks` : '?'}</span></td>
-              <td class="kpi-sample-size">${n3mo > 0 ? `${n3mo} product${n3mo > 1 ? 's' : ''}` : '—'}</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="kpi-note">
-          FCS date tracking began Feb 2026. The 12 and 6 month checkpoints will populate as
-          more products are in-flight for longer. Data updates automatically as products ship.
-        </div>
-      </div>
-      <!-- KPI 2: Time to Market -->
-      <div class="card">
-        <div class="kpi-card-title">Estimated Time to Market</div>
-        <div class="kpi-card-subtitle">
-          From entry into Active Developments to FCS date — active products, current projections
-        </div>
-        <div class="kpi-big-number">${medianMonths ? medianMonths.toFixed(1) : '—'}<span class="kpi-big-unit">mo</span></div>
-        <div class="kpi-big-label">median across ${cycleRows.length} active product${cycleRows.length !== 1 ? 's' : ''}</div>
-        <div class="kpi-divider"></div>
-        <!-- Active Developments section -->
-        <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Active Developments</div>
-        <table class="kpi-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>FCS</th>
-              <th style="text-align:right">Months</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${cycleRows.map(r => `
-              <tr>
-                <td>${esc(r.name)}</td>
-                <td class="kpi-date-val">${shortDate(r.fcs)}</td>
-                <td class="kpi-months-val" style="text-align:right">${r.months.toFixed(1)}</td>
-              </tr>`).join('')}
-          </tbody>
-        </table>
-        ${completedRows.length ? `
-        <div class="kpi-divider" style="margin-top:18px;"></div>
-        <!-- Completed Developments section -->
-        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:6px;">
-          <div style="font-size:11px;font-weight:700;color:#9699a6;text-transform:uppercase;letter-spacing:0.06em;">Completed Developments</div>
-          ${completedAvg ? `<div style="font-size:11px;color:#9699a6;">avg ${completedAvg.toFixed(1)} mo</div>` : ''}
-        </div>
-        <table class="kpi-table">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>FCS</th>
-              <th style="text-align:right">Months</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${completedRows.map(r => `
-              <tr>
-                <td style="color:#00854d;font-weight:500;">${esc(r.name)}</td>
-                <td class="kpi-date-val">${shortDate(r.fcs)}</td>
-                <td style="text-align:right;font-weight:700;color:#00854d;">${r.months.toFixed(1)}</td>
-              </tr>`).join('')}
-          </tbody>
-        </table>` : ''}
-        <div class="kpi-note">
-          Cycle times recalculate automatically when FCS dates change on Monday.com.
-          Entry dates reflect when each product first entered Active Developments.
-        </div>
-      </div>
-    </div>`;
-}
 // ── History & diffing ────────────────────────────────────────────────────────
 let historyData  = null;   // parsed history.json
-let activeFilter = 'date';  // 'date' | 'confidence'
-// Load history.json from the same origin
+let activeFilter = 'all';   // 'all' | 'date' | 'fcs' | 'confidence'
+// history.json is the single source of truth for the change history. It is
+// rebuilt from monday.com activity logs (exact time + author of every change)
+// by scripts/update_history.py, which a GitHub Action runs every hour and
+// commits back to the repo. The page only reads it — no browser-side diffing.
 async function loadHistory() {
   try {
     const res = await fetch(HISTORY_FILE + '?_=' + Date.now());
@@ -1398,137 +1202,6 @@ async function loadHistory() {
     document.getElementById('sidebar-body').innerHTML =
       `<div class="sidebar-empty">Could not load history.json.<br><small>${esc(e.message)}</small></div>`;
   }
-}
-// ── Snapshot helpers (localStorage) ─────────────────────────────────────────
-// We store the most-recent live state here so every diff is incremental.
-// This means A→B then B→C are two separate records, never collapsed into A→C.
-const LS_SNAPSHOT_KEY = 'fcs_snapshot_v2';
-function getStoredSnapshot() {
-  try { return JSON.parse(localStorage.getItem(LS_SNAPSHOT_KEY) || 'null'); }
-  catch(e) { return null; }
-}
-function storeSnapshot(allItems) {
-  const snap = {};
-  allItems.forEach(item => {
-    snap[item.id] = Object.assign({ name: item.name, group_id: item.group_id }, item.colMap);
-  });
-  try { localStorage.setItem(LS_SNAPSHOT_KEY, JSON.stringify(snap)); } catch(e) {}
-}
-// Diff ALL live items (all groups, all fields) against the last stored snapshot.
-// After diffing, the current state becomes the new snapshot.
-function diffAndRecord(allItems) {
-  if (!historyData) return;
-  // Prefer localStorage snapshot (always up-to-date); fall back to history.json baseline
-  let prevState = getStoredSnapshot();
-  if (!prevState) {
-    const snapshots = historyData.snapshots;
-    if (snapshots && snapshots.length) {
-      prevState = snapshots[snapshots.length - 1].items || {};
-    }
-  }
-  const now       = isoNow();
-  const changelog = historyData.changelog;
-  const DIFF_FIELDS = [
-    'date_mm06txhj', 'numeric_mkz3rvnr', 'status',
-    'color_mkxf9nhp', 'boolean_mm06c6vy', 'boolean_mm06jadd', 'name'
-  ];
-  allItems.forEach(item => {
-    const prev       = prevState ? prevState[item.id] : null;
-    const groupTitle = GROUP_NAMES[item.group_id] || item.group_title || item.group_id;
-    // ── New item: log an "added" event ──────────────────────────────────────
-    if (!prev) {
-      const isDupe = changelog.some(c => c.itemId === item.id && c.field === '_added');
-      if (!isDupe) {
-        changelog.push({
-          timestamp:  now,
-          itemId:     item.id,
-          itemName:   item.name,
-          groupId:    item.group_id,
-          groupTitle: groupTitle,
-          field:      '_added',
-          fieldTitle: 'Added to board',
-          from:       null,
-          to:         groupTitle
-        });
-      }
-      return; // will be in snapshot for future diffs
-    }
-    // ── Group move ───────────────────────────────────────────────────────────
-    if (prev.group_id && prev.group_id !== item.group_id) {
-      const fromGroup = GROUP_NAMES[prev.group_id] || prev.group_id;
-      const isDupe = changelog.some(c =>
-        c.itemId === item.id && c.field === '_group' &&
-        c.from === fromGroup && c.to === groupTitle
-      );
-      if (!isDupe) {
-        changelog.push({
-          timestamp:  now,
-          itemId:     item.id,
-          itemName:   item.name,
-          groupId:    item.group_id,
-          groupTitle: groupTitle,
-          field:      '_group',
-          fieldTitle: 'Moved to group',
-          from:       fromGroup,
-          to:         groupTitle
-        });
-      }
-    }
-    // ── Field changes ────────────────────────────────────────────────────────
-    DIFF_FIELDS.forEach(field => {
-      const liveVal = (field === 'name') ? item.name : item.colMap[field];
-      const snapVal = prev[field];
-      const normSnap = (snapVal == null || snapVal === '') ? null : String(snapVal);
-      const normLive = (liveVal == null || liveVal === '') ? null : String(liveVal);
-      if (normSnap !== normLive) {
-        // Dedupe: exact same transition already logged
-        const isDupe = changelog.some(c =>
-          c.itemId === item.id &&
-          c.field  === field   &&
-          c.from   === normSnap &&
-          c.to     === normLive
-        );
-        if (!isDupe) {
-          changelog.push({
-            timestamp:  now,
-            itemId:     item.id,
-            itemName:   item.name,
-            groupId:    item.group_id,
-            groupTitle: groupTitle,
-            field:      field,
-            fieldTitle: TRACKED_COLS[field] || field,
-            from:       normSnap,
-            to:         normLive
-          });
-        }
-      }
-    });
-  });
-  // ⚠️ Update snapshot AFTER diffing so the next refresh diffs against NOW
-  storeSnapshot(allItems);
-  persistChangelogLocally(changelog);
-  mergeLocalChangelog();
-  renderSidebar();
-}
-const LS_CHANGELOG_KEY = 'fcs_changelog_v1';
-function persistChangelogLocally(changelog) {
-  try {
-    localStorage.setItem(LS_CHANGELOG_KEY, JSON.stringify(changelog));
-  } catch(e) { /* quota exceeded – ignore */ }
-}
-function mergeLocalChangelog() {
-  if (!historyData) return;
-  try {
-    const local = JSON.parse(localStorage.getItem(LS_CHANGELOG_KEY) || '[]');
-    const fileIds = new Set(historyData.changelog.map(c => c.timestamp + c.itemId + c.field));
-    local.forEach(entry => {
-      const key = entry.timestamp + entry.itemId + entry.field;
-      if (!fileIds.has(key)) {
-        historyData.changelog.push(entry);
-        fileIds.add(key);
-      }
-    });
-  } catch(e) { /* ignore */ }
 }
 const GROUP_NAMES = {
   'group_title':     'Concept Development',
@@ -1546,12 +1219,13 @@ function setFilter(filter, el) {
 }
 function renderSidebar() {
   if (!historyData) return;
-  mergeLocalChangelog();
   const body = document.getElementById('sidebar-body');
   // Show all changes across all groups
   let entries = historyData.changelog.slice();
   if (activeFilter === 'date') {
     entries = entries.filter(c => c.field === 'date_mm06txhj');
+  } else if (activeFilter === 'fcs') {
+    entries = entries.filter(c => c.field === 'fcs_date');
   } else if (activeFilter === 'confidence') {
     entries = entries.filter(c => c.field === 'numeric_mkz3rvnr');
   }
@@ -1563,8 +1237,8 @@ function renderSidebar() {
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
           <path d="M12 22a10 10 0 1 1 0-20 10 10 0 0 1 0 20zM12 7v5l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
-        No changes recorded yet for<br>FCS Date or Confidence.<br>
-        <small style="color:#c5c7d4;margin-top:6px;display:block">Changes appear here automatically<br>when data is refreshed.</small>
+        No changes recorded yet.<br>
+        <small style="color:#c5c7d4;margin-top:6px;display:block">History syncs from monday.com<br>every hour.</small>
       </div>`;
     return;
   }
@@ -1580,6 +1254,13 @@ function renderSidebar() {
       fromLabel = c.from ? prettyDate(c.from) : '—';
       toLabel   = c.to   ? prettyDate(c.to)   : '—';
       toClass   = 'date-change';
+    } else if (c.field === 'fcs_date') {
+      fromLabel = c.from ? prettyDate(c.from) : '—';
+      toLabel   = c.to   ? prettyDate(c.to)   : '—';
+      toClass   = 'fcs-change';
+    } else if (c.field === '_deleted') {
+      fromLabel = null;
+      toLabel   = c.to || 'Deleted';
     } else if (c.field === 'numeric_mkz3rvnr') {
       fromLabel = c.from != null ? c.from + '%' : '—';
       toLabel   = c.to   != null ? c.to   + '%' : '—';
@@ -1602,7 +1283,7 @@ function renderSidebar() {
           ${fromLabel != null ? `<span class="change-from">${esc(fromLabel)}</span><span class="change-arrow">→</span>` : ''}
           <span class="change-to ${toClass}">${esc(toLabel)}</span>
         </div>
-        <div class="change-group">${esc(c.groupTitle)}</div>
+        <div class="change-group">${esc(c.groupTitle || '')}${c.changedBy ? ' · ' + esc(c.changedBy) : ''}</div>
       </div>`;
   }).join('');
 }
@@ -1637,24 +1318,25 @@ async function loadData(manual = false) {
   clearInterval(countdownTimer);
   document.getElementById('next-refresh').textContent = '';
   try {
-    const allItems  = await fetchItems(token);
-    // Main roadmap: Active Developments items that have an FCS date
+    const [allItems, gtmMap] = await Promise.all([
+      fetchItems(token),
+      fetchGtmFcsDates(token).catch(err => { console.warn('FCS dates unavailable:', err.message); return {}; })
+    ]);
+    for (const i of allItems) i.fcsDate = gtmMap[normName(GTM_NAME_ALIASES[i.name] || i.name)] || null;
+    // Main roadmap: Active Developments items that have an FFS date
     const chartItems = allItems
-      .filter(i => i.group_id === GROUP_ID && i.fcsDate)
-      .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
-    // Secondary roadmap block: Product Upgrades / Cost Reductions items with an FCS date
+      .filter(i => i.group_id === GROUP_ID && i.ffsDate)
+      .sort((a, b) => parseDate(a.fcsDate || a.ffsDate) - parseDate(b.fcsDate || b.ffsDate));
+    // Secondary roadmap block: Product Upgrades / Cost Reductions items with an FFS date
     const upgradeItems = allItems
-      .filter(i => i.group_id === UPGRADES_GROUP_ID && i.fcsDate)
-      .sort((a, b) => new Date(a.fcsDate) - new Date(b.fcsDate));
+      .filter(i => i.group_id === UPGRADES_GROUP_ID && i.ffsDate)
+      .sort((a, b) => parseDate(a.fcsDate || a.ffsDate) - parseDate(b.fcsDate || b.ffsDate));
     renderChart(chartItems, upgradeItems);
     // Update shared cache; render whichever secondary views are active
     liveItemsCache = allItems;
-    renderKPIs(allItems);
     renderTimeline(allItems);
-    // Diff the full board (all groups, all fields) for the change history
-    if (historyData) {
-      diffAndRecord(allItems);
-    }
+    // Pick up the latest synced change history
+    loadHistory();
     const now = new Date();
     document.getElementById('last-updated').textContent =
       'Updated ' + now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
