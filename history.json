@@ -2858,6 +2858,58 @@
       "itemId": "18366766347",
       "groupId": "topics",
       "groupTitle": "Active Developments"
+    },
+    {
+      "id": "18364310005:17926011200477970:move_pulse_from_group:11621663770:_group",
+      "timestamp": "2026-10-21T16:45:20.047Z",
+      "field": "_group",
+      "fieldTitle": "Moved to group",
+      "from": "Concept Development",
+      "to": "Active Developments",
+      "changedBy": "Warren Taylor",
+      "itemName": "Custom B&T App",
+      "itemId": "11621663770",
+      "groupId": "topics",
+      "groupTitle": "Active Developments"
+    },
+    {
+      "id": "18364310005:17926011334541494:update_column_value:11621663770:date_mm06txhj",
+      "timestamp": "2026-10-21T16:45:33.454Z",
+      "field": "date_mm06txhj",
+      "fieldTitle": "FFS",
+      "from": null,
+      "to": "2027-01-15",
+      "changedBy": "Warren Taylor",
+      "itemName": "Custom B&T App",
+      "itemId": "11621663770",
+      "groupId": "topics",
+      "groupTitle": "Active Developments"
+    },
+    {
+      "id": "18364310005:17926011366004026:update_column_value:11621663770:numeric_mkz3rvnr",
+      "timestamp": "2026-10-21T16:45:36.600Z",
+      "field": "numeric_mkz3rvnr",
+      "fieldTitle": "Confidence",
+      "from": null,
+      "to": "60",
+      "changedBy": "Warren Taylor",
+      "itemName": "Custom B&T App",
+      "itemId": "11621663770",
+      "groupId": "topics",
+      "groupTitle": "Active Developments"
+    },
+    {
+      "id": "18364310005:17926011418413860:update_column_value:11621663770:boolean_mm06jadd",
+      "timestamp": "2026-10-21T16:45:41.841Z",
+      "field": "boolean_mm06jadd",
+      "fieldTitle": "Post-Tool Review",
+      "from": "false",
+      "to": "true",
+      "changedBy": "Warren Taylor",
+      "itemName": "Custom B&T App",
+      "itemId": "11621663770",
+      "groupId": "topics",
+      "groupTitle": "Active Developments"
     }
   ]
 }
