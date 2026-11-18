@@ -3365,6 +3365,45 @@
       "itemId": "13443126936",
       "groupId": "topics",
       "groupTitle": "Active Developments"
+    },
+    {
+      "id": "18434045053:17950137026792968:update_column_value:13210395549:fcs_date",
+      "timestamp": "2026-11-18T14:55:02.679Z",
+      "field": "fcs_date",
+      "fieldTitle": "FCS Date",
+      "from": "2027-03-31",
+      "to": "2027-04-19",
+      "changedBy": "Rich Durham",
+      "itemId": "11512335138",
+      "itemName": "Banneton Brush",
+      "groupId": "gtm",
+      "groupTitle": "GTM Launches"
+    },
+    {
+      "id": "18434045053:17950137657441056:update_column_value:13210410992:fcs_date",
+      "timestamp": "2026-11-18T14:56:05.744Z",
+      "field": "fcs_date",
+      "fieldTitle": "FCS Date",
+      "from": "2027-03-15",
+      "to": "2027-04-12",
+      "changedBy": "Rich Durham",
+      "itemId": "18366766347",
+      "itemName": "Bread Pan",
+      "groupId": "gtm",
+      "groupTitle": "GTM Launches"
+    },
+    {
+      "id": "18434045053:17950138120572160:update_column_value:13217012620:fcs_date",
+      "timestamp": "2026-11-18T14:56:52.057Z",
+      "field": "fcs_date",
+      "fieldTitle": "FCS Date",
+      "from": "2026-11-18",
+      "to": "2026-12-07",
+      "changedBy": "Rich Durham",
+      "itemId": "12312804754",
+      "itemName": "Tools Kit",
+      "groupId": "gtm",
+      "groupTitle": "GTM Launches"
     }
   ]
 }
